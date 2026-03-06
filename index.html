@@ -14,37 +14,20 @@
     <style>
         /* --- CSS Variables & Reset --- */
         :root {
-            --primary-color: #0f172a; /* Slate 900 */
-            --accent-color: #2563eb; /* Blue 600 */
-            --accent-hover: #1d4ed8; /* Blue 700 */
-            --bg-color: #f8fafc; /* Slate 50 */
+            --primary-color: #0f172a;
+            --accent-color: #2563eb;
+            --accent-hover: #1d4ed8;
+            --bg-color: #f8fafc;
             --card-bg: #ffffff;
-            --text-main: #334155; /* Slate 700 */
-            --text-light: #64748b; /* Slate 500 */
+            --text-main: #334155;
+            --text-light: #64748b;
             --transition: all 0.3s ease;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.6;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        html { scroll-behavior: smooth; }
+        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; }
+        a { text-decoration: none; color: inherit; }
 
         /* --- Language Toggle Logic --- */
         body.lang-en .zh { display: none !important; }
@@ -53,230 +36,74 @@
         /* --- Typography & Utilities --- */
         h1, h2, h3 { color: var(--primary-color); }
         h2 { font-size: 2rem; margin-bottom: 2rem; position: relative; display: inline-block; }
-        h2::after {
-            content: '';
-            position: absolute;
-            width: 50%;
-            height: 4px;
-            background-color: var(--accent-color);
-            bottom: -8px;
-            left: 0;
-            border-radius: 2px;
-        }
+        h2::after { content: ''; position: absolute; width: 50%; height: 4px; background-color: var(--accent-color); bottom: -8px; left: 0; border-radius: 2px; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 5rem 2rem; }
         
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 5rem 2rem;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 0.8rem 1.5rem;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .btn-sm {
-            padding: 0.5rem 1rem;
-            font-size: 0.85rem;
-            border-radius: 4px;
-        }
-
-        .btn-primary {
-            background-color: var(--accent-color);
-            color: white;
-            border: 2px solid var(--accent-color);
-        }
-        
-        .btn-primary:hover {
-            background-color: var(--accent-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
-            color: white;
-        }
-
-        .btn-outline {
-            background-color: transparent;
-            color: var(--accent-color);
-            border: 2px solid var(--accent-color);
-        }
-
-        .btn-outline:hover {
-            background-color: var(--accent-color);
-            color: white;
-            transform: translateY(-2px);
-        }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.8rem 1.5rem; border-radius: 6px; font-weight: 600; cursor: pointer; transition: var(--transition); }
+        .btn-sm { padding: 0.5rem 1rem; font-size: 0.85rem; border-radius: 4px; }
+        .btn-primary { background-color: var(--accent-color); color: white; border: 2px solid var(--accent-color); }
+        .btn-primary:hover { background-color: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); color: white; }
+        .btn-outline { background-color: transparent; color: var(--accent-color); border: 2px solid var(--accent-color); }
+        .btn-outline:hover { background-color: var(--accent-color); color: white; transform: translateY(-2px); }
 
         /* --- Navigation --- */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-
-        .nav-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
+        nav { position: fixed; top: 0; width: 100%; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); z-index: 1000; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .nav-container { max-width: 1100px; margin: 0 auto; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
         .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); }
         .logo span { color: var(--accent-color); }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-        }
-
+        .nav-right { display: flex; align-items: center; gap: 2rem; }
         .nav-links { display: flex; gap: 2rem; list-style: none; }
-        .nav-links a {
-            font-weight: 600;
-            color: var(--text-light);
-            transition: var(--transition);
-        }
+        .nav-links a { font-weight: 600; color: var(--text-light); transition: var(--transition); }
         .nav-links a:hover { color: var(--accent-color); }
 
-        /* Lang Toggle Button */
-        .lang-toggle {
-            background: #e2e8f0;
-            border: none;
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            color: var(--primary-color);
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .lang-toggle:hover {
-            background: #cbd5e1;
-        }
+        .lang-toggle { background: #e2e8f0; border: none; padding: 0.4rem 0.8rem; border-radius: 20px; font-weight: 600; font-size: 0.85rem; color: var(--primary-color); cursor: pointer; transition: var(--transition); display: flex; align-items: center; gap: 5px; }
+        .lang-toggle:hover { background: #cbd5e1; }
         .lang-toggle .active-lang { color: var(--accent-color); }
 
         /* --- Hero Section --- */
-        #hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            padding-top: 60px;
-        }
-
+        #hero { min-height: 100vh; display: flex; align-items: center; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); padding-top: 60px; }
         .hero-content { max-width: 800px; }
-
-        .hero-subtitle {
-            color: var(--accent-color);
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-bottom: 1rem;
-            display: block;
-        }
-
-        .hero-content h1 {
-            font-size: 3.5rem;
-            line-height: 1.2;
-            margin-bottom: 1.5rem;
-        }
-
-        .hero-content p {
-            font-size: 1.2rem;
-            color: var(--text-light);
-            margin-bottom: 2rem;
-            max-width: 600px;
-        }
-
+        .hero-subtitle { color: var(--accent-color); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1rem; display: block; }
+        .hero-content h1 { font-size: 3.5rem; line-height: 1.2; margin-bottom: 1.5rem; }
+        .hero-content p { font-size: 1.2rem; color: var(--text-light); margin-bottom: 2rem; max-width: 600px; }
         .hero-buttons { display: flex; gap: 1rem; }
 
         /* --- About Section --- */
         .about-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; }
         .about-text p { margin-bottom: 1rem; }
-        .about-details {
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
+        .about-details { background: var(--card-bg); padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         .detail-item { margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 1rem; }
         .detail-item i { color: var(--accent-color); font-size: 1.2rem; margin-top: 3px; }
 
         /* --- Experience Section (Timeline) --- */
-        .timeline { position: relative; max-width: 800px; margin: 0 auto; }
-        .timeline::after {
-            content: ''; position: absolute; width: 2px; background-color: #e2e8f0;
-            top: 0; bottom: 0; left: 20px; margin-left: -1px;
-        }
+        .timeline { position: relative; max-width: 900px; margin: 0 auto; }
+        .timeline::after { content: ''; position: absolute; width: 2px; background-color: #e2e8f0; top: 0; bottom: 0; left: 20px; margin-left: -1px; }
         .timeline-item { padding: 10px 0 30px 50px; position: relative; }
-        .timeline-item::after {
-            content: ''; position: absolute; width: 16px; height: 16px;
-            left: 12px; background-color: var(--card-bg); border: 3px solid var(--accent-color);
-            top: 15px; border-radius: 50%; z-index: 1;
-        }
-        .timeline-content {
-            background: var(--card-bg); padding: 1.5rem; border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.03); transition: var(--transition);
-        }
-        .timeline-content:hover { transform: translateY(-3px); box-shadow: 0 10px 15px rgba(0,0,0,0.05); }
-        .time-badge {
-            display: inline-block; padding: 0.2rem 0.8rem; background: #e0e7ff;
-            color: var(--accent-color); border-radius: 20px; font-size: 0.85rem;
-            font-weight: 600; margin-bottom: 0.5rem;
-        }
-        .timeline-content h3 { margin-bottom: 0.2rem; }
-        .timeline-content h4 { color: var(--text-light); font-weight: 400; margin-bottom: 1rem; font-size: 0.95rem;}
+        .timeline-item::after { content: ''; position: absolute; width: 16px; height: 16px; left: 12px; background-color: var(--card-bg); border: 3px solid var(--accent-color); top: 15px; border-radius: 50%; z-index: 1; }
+        .timeline-content { background: var(--card-bg); padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.03); transition: var(--transition); border: 1px solid #f1f5f9; }
+        .timeline-content:hover { transform: translateY(-3px); box-shadow: 0 10px 15px rgba(0,0,0,0.05); border-color: #e2e8f0; }
+        .time-badge { display: inline-block; padding: 0.2rem 0.8rem; background: #e0e7ff; color: var(--accent-color); border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .timeline-content h3 { margin-bottom: 0.2rem; font-size: 1.3rem; }
+        .timeline-content h4 { color: var(--text-light); font-weight: 500; margin-bottom: 1.2rem; font-size: 1rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.8rem;}
         .timeline-content ul { padding-left: 1.2rem; color: var(--text-main); font-size: 0.95rem;}
-        .timeline-content li { margin-bottom: 0.5rem; }
+        .timeline-content li { margin-bottom: 0.8rem; line-height: 1.6; }
+        .timeline-content strong { color: var(--primary-color); font-weight: 600; }
 
         /* --- Projects & Downloads Grid --- */
-        .grid-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-        .card {
-            background: var(--card-bg); border-radius: 12px; padding: 2rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: var(--transition);
-            border: 1px solid #f1f5f9;
-            display: flex; flex-direction: column;
-        }
+        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .card { background: var(--card-bg); border-radius: 12px; padding: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: var(--transition); border: 1px solid #f1f5f9; display: flex; flex-direction: column; }
         .card:hover { transform: translateY(-5px); box-shadow: 0 12px 20px rgba(0,0,0,0.08); border-color: #e2e8f0; }
         .card-icon { font-size: 2.5rem; color: var(--accent-color); margin-bottom: 1rem; }
         .card h3 { margin-bottom: 0.5rem; font-size: 1.2rem;}
         .card-subtitle { color: var(--text-light); font-size: 0.85rem; margin-bottom: 1rem; }
         .card p { font-size: 0.95rem; margin-bottom: 1.5rem; color: var(--text-main); flex-grow: 1;}
-        
-        .tech-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
-        .tech-tag { background: #f1f5f9; color: var(--text-light); font-size: 0.8rem; padding: 0.3rem 0.8rem; border-radius: 4px; font-weight: 600; }
-
         .dl-links { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: auto;}
 
         /* --- Skills Section --- */
         .skills-category { margin-bottom: 2rem; }
         .skills-category h3 { font-size: 1.2rem; margin-bottom: 1rem; color: var(--text-light); }
         .skills-wrapper { display: flex; flex-wrap: wrap; gap: 1rem; }
-        .skill-badge {
-            background: white; border: 1px solid #e2e8f0; padding: 0.8rem 1.5rem;
-            border-radius: 30px; font-weight: 600; color: var(--primary-color);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: var(--transition);
-            display: flex; align-items: center; gap: 0.5rem;
-        }
+        .skill-badge { background: white; border: 1px solid #e2e8f0; padding: 0.8rem 1.5rem; border-radius: 30px; font-weight: 600; color: var(--primary-color); box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: var(--transition); display: flex; align-items: center; gap: 0.5rem; }
         .skill-badge:hover { border-color: var(--accent-color); color: var(--accent-color); transform: scale(1.05); }
 
         /* --- Hobbies Section --- */
@@ -291,46 +118,20 @@
         .contact-content h2 { color: white; }
         .contact-content h2::after { background-color: white; left: 25%; }
         .social-links { display: flex; justify-content: center; gap: 1.5rem; margin: 2rem 0; }
-        .social-links a {
-            display: inline-flex; align-items: center; justify-content: center;
-            width: 50px; height: 50px; background: rgba(255,255,255,0.1);
-            border-radius: 50%; font-size: 1.5rem; transition: var(--transition);
-        }
+        .social-links a { display: inline-flex; align-items: center; justify-content: center; width: 50px; height: 50px; background: rgba(255,255,255,0.1); border-radius: 50%; font-size: 1.5rem; transition: var(--transition); }
         .social-links a:hover { background: var(--accent-color); transform: translateY(-3px); }
         .copyright { margin-top: 3rem; font-size: 0.9rem; color: #94a3b8; }
 
         /* --- Code Modal Preview Styles --- */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7); backdrop-filter: blur(5px);
-            z-index: 2000; display: none; justify-content: center; align-items: center;
-            opacity: 0; transition: opacity 0.3s ease;
-        }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); z-index: 2000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
         .modal-overlay.active { display: flex; opacity: 1; }
-        .modal-content {
-            background: #1e1e1e; width: 90%; max-width: 900px; max-height: 85vh;
-            border-radius: 12px; display: flex; flex-direction: column;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5); overflow: hidden;
-            border: 1px solid #333;
-        }
-        .modal-header {
-            padding: 1rem 1.5rem; background: #252526; color: #fff;
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid #333;
-        }
+        .modal-content { background: #1e1e1e; width: 90%; max-width: 900px; max-height: 85vh; border-radius: 12px; display: flex; flex-direction: column; box-shadow: 0 20px 50px rgba(0,0,0,0.5); overflow: hidden; border: 1px solid #333; }
+        .modal-header { padding: 1rem 1.5rem; background: #252526; color: #fff; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; }
         .modal-title { font-weight: 600; font-family: monospace; font-size: 1.1rem; color: #4ade80;}
-        .close-modal {
-            background: none; border: none; color: #a1a1aa; font-size: 1.5rem;
-            cursor: pointer; transition: color 0.2s;
-        }
+        .close-modal { background: none; border: none; color: #a1a1aa; font-size: 1.5rem; cursor: pointer; transition: color 0.2s; }
         .close-modal:hover { color: #fff; }
-        .modal-body {
-            padding: 0; overflow-y: auto; flex-grow: 1; background: #1e1e1e;
-        }
-        /* Override Prism margin */
-        .modal-body pre[class*="language-"] {
-            margin: 0 !important; border-radius: 0 !important; min-height: 100%; background: #1e1e1e;
-        }
+        .modal-body { padding: 0; overflow-y: auto; flex-grow: 1; background: #1e1e1e; }
+        .modal-body pre[class*="language-"] { margin: 0 !important; border-radius: 0 !important; min-height: 100%; background: #1e1e1e; }
 
         /* --- Responsive Design --- */
         @media (max-width: 768px) {
@@ -340,6 +141,7 @@
             .hero-buttons { flex-direction: column; }
             .btn { text-align: center; }
             .nav-right { gap: 1rem; }
+            .timeline-content { padding: 1.5rem; }
         }
     </style>
 </head>
@@ -451,42 +253,48 @@
             <h2 class="zh">工作经验</h2>
             <div class="timeline">
                 
-                <!-- Amazon -->
+                <!-- Amazon - FULL UPDATE -->
                 <div class="timeline-item">
                     <div class="timeline-content">
-                        <span class="time-badge">Sep 2025 - Jan 2026</span>
+                        <span class="time-badge">Sep 2025 – Jan 2026</span>
                         <h3 class="en">Process Excellence Manager</h3>
                         <h3 class="zh">流程卓越经理 (Process Excellence Manager)</h3>
                         <h4>Amazon - Hamburg-Nutzen (DHH2)</h4>
+                        
                         <ul class="en">
-                            <li>Co-managed daily station operations directing 100+ associates, sustaining a <strong>99.5% DEA rate</strong> and maintaining strict 100% safety compliance.</li>
-                            <li>Evaluated 16 DSPs via data-driven approach across 100+ KPIs, translating insights into Lean process improvements to boost labor productivity.</li>
-                            <li>Built custom automation tools (Tampermonkey + VBA) to streamline reporting, saving management <strong>6+ hours/week</strong>.</li>
+                            <li><strong>Last-Mile Order Fulfillment & Leadership:</strong> Co-managed daily station operations to drive B2C last-mile customer order fulfillment, directing <strong>100+ L1-L3 associates</strong> alongside peer managers. Conducted RCA for disruptions and executed <strong>monthly process, safety, and compliance audits</strong>, maintaining a strict <strong>100% safety compliance</strong>.</li>
+                            <li><strong>DSP Management & Process Excellence:</strong> Evaluated <strong>16 DSPs</strong> via a data-driven approach across 100+ OTR/UTR KPIs to optimize the last-mile delivery network. Sustained a <strong>99.5% DEA rate</strong> and translated KPI insights into Lean process improvements, significantly boosting overall <strong>station labor productivity</strong>.</li>
+                            <li><strong>Workflow Automation:</strong> Built and deployed custom <strong>automation tools (Tampermonkey + VBA)</strong> to streamline data extraction and operational reporting. Eliminated manual data entry workflows, saving the management team <strong>6+ hours/week</strong> and accelerating daily KPI visibility.</li>
                         </ul>
+                        
                         <ul class="zh">
-                            <li>共同管理配送站日常运营，指导100多名员工，维持了<strong>99.5%的交付率(DEA)</strong>并保持100%的安全合规。</li>
-                            <li>通过数据驱动的方式评估16家DSP服务商的100多项KPI，将数据洞察转化为精益流程改进，提升劳动力生产率。</li>
-                            <li>开发并部署自定义自动化工具（Tampermonkey + VBA）以简化报告流程，为管理层<strong>每周节省6小时以上</strong>。</li>
+                            <li><strong>最后一公里订单履行与团队领导：</strong>共同管理配送站日常运营，推动 B2C 最后一公里客户订单履行，与其他经理协同指导 <strong>100多名 L1-L3 员工</strong>。对运营中断进行根本原因分析 (RCA)，并执行<strong>每月流程、安全和合规审计</strong>，维持严格的 <strong>100% 安全合规</strong>。</li>
+                            <li><strong>DSP 管理与流程卓越：</strong>通过数据驱动的方式，跨 100+ OTR/UTR KPI 评估了 <strong>16家配送服务商 (DSP)</strong>，以优化最后一公里交付网络。维持了 <strong>99.5% 的交付率 (DEA)</strong>，并将 KPI 洞察转化为精益流程改进，显著提升了<strong>站点的整体劳动力生产率</strong>。</li>
+                            <li><strong>工作流自动化：</strong>开发并部署了自定义<strong>自动化工具（Tampermonkey + VBA）</strong>，以简化数据提取和运营报告。消除了手动数据输入工作流，为管理团队<strong>每周节省 6+ 小时</strong>，并加快了日常 KPI 的可见性。</li>
                         </ul>
                     </div>
                 </div>
 
-                <!-- Xiaomi -->
+                <!-- Xiaomi - FULL UPDATE -->
                 <div class="timeline-item">
                     <div class="timeline-content">
-                        <span class="time-badge">Jun 2024 - Aug 2025</span>
+                        <span class="time-badge">Jun 2024 – Aug 2025</span>
                         <h3 class="en">Supply Chain Delivery Manager</h3>
                         <h3 class="zh">供应链交付经理</h3>
                         <h4>Xiaomi Technology - Düsseldorf</h4>
+                        
                         <ul class="en">
-                            <li>Managed B2B/B2C omnichannel order fulfillment (≈350k units/year) for Key Accounts in Germany and the Netherlands.</li>
-                            <li>Led CPFR demand planning, translated insights into 12-month rolling supply plans, and optimized inventory turnover (ITO).</li>
-                            <li>Designed and built a proprietary internal delivery platform, establishing SOPs and delivering structured KPI reports to reduce logistics costs.</li>
+                            <li><strong>End-to-End Order Fulfillment & Logistics:</strong> Managed B2B/B2C omnichannel order fulfillment (≈350k units/year) for Key Accounts (KAs) in Germany and the Netherlands. Directed international air freight, customs clearance, and local 3PL distribution. Processed POs/SOs daily using <strong>CRM, GDP, and SAP platforms</strong> to guarantee on-time delivery and evaluate vendor performance. Assisted retail teams with merchandising, POS displays, and supply planning for product launches.</li>
+                            <li><strong>Demand Planning & S&OP Alignment:</strong> Led CPFR demand planning and SKU lifecycle management using advanced <strong>Excel data analysis and visualizations</strong>. Translated customer insights into 12-month rolling supply plans, optimized inventory turnover (ITO), and aligned with internal GTM/Sales teams to allocate resources accurately against inflated KA forecasts.</li>
+                            <li><strong>Key Account Strategy & Profitability Analysis:</strong> Evaluated holistic KA profitability by analyzing unit sales, product mix margins, and end-to-end logistics costs. Partnered with Sales and GTM teams to formulate and pivot annual KA business strategies. Executed complex product rework projects (custom software/packaging) for major clients like Deutsche Telekom and Vodafone.</li>
+                            <li><strong>Process Optimization & System Development:</strong> <strong>Designed and built a proprietary internal delivery platform</strong> adopted by the entire supply chain team to streamline tracking and data visibility. Established SOPs for exception management (damages, delays, mis-shipments) and delivered structured KPI reports, continuously driving down operational risks and logistics costs.</li>
                         </ul>
+
                         <ul class="zh">
-                            <li>负责德国及荷兰大客户(Key Accounts)的B2B/B2C全渠道订单履行（年约35万台设备）。</li>
-                            <li>领导CPFR需求规划，制定12个月滚动供应计划，优化库存周转率(ITO)。</li>
-                            <li>设计并构建了内部专属交付数据平台，建立SOP并提供结构化的KPI报告，有效降低物流成本。</li>
+                            <li><strong>端到端订单履行与物流：</strong>管理德国和荷兰大客户 (KAs) 的 B2B/B2C 全渠道订单履行（每年约 35 万台）。负责国际空运、清关以及本地 3PL 配送。每天使用 <strong>CRM、GDP 和 SAP 平台</strong>处理 PO/SO，以保证按时交付并评估供应商绩效。协助零售团队进行新产品发布的商品陈列、POS 展示和供应规划。</li>
+                            <li><strong>需求规划与 S&OP 对齐：</strong>使用高级 <strong>Excel 数据分析和可视化</strong>领导 CPFR 需求规划和 SKU 生命周期管理。将客户洞察转化为 12 个月的滚动供应计划，优化库存周转率 (ITO)，并与内部 GTM/销售团队对齐，针对夸大的 KA 预测进行准确的资源分配。</li>
+                            <li><strong>大客户战略与盈利能力分析：</strong>通过分析单位销量、产品组合利润率和端到端物流成本来评估大客户整体盈利能力。与销售和 GTM 团队合作制定和调整年度大客户业务战略。为德国电信和沃达丰等主要客户执行了复杂的产品返工项目（定制软件/包装）。</li>
+                            <li><strong>流程优化与系统开发：</strong><strong>设计并构建了专属内部交付数据平台</strong>，被整个供应链团队广泛采用，以简化追踪流程并提高数据可见性。建立了异常管理 SOP（针对损坏、延误、错发），并交付结构化的 KPI 报告，持续降低运营风险和物流成本。</li>
                         </ul>
                     </div>
                 </div>
@@ -527,7 +335,7 @@
         </div>
     </section>
 
-    <!-- 4. Portfolio & Downloads (PDFs via target="_blank", Code via Modal) -->
+    <!-- 4. Portfolio & Downloads -->
     <section id="portfolio" class="container">
         <h2 class="en">Portfolio & Documents</h2>
         <h2 class="zh">作品库与文档阅览</h2>
