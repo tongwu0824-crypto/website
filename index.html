@@ -133,6 +133,28 @@
         .modal-body { padding: 0; overflow-y: auto; flex-grow: 1; background: #1e1e1e; }
         .modal-body pre[class*="language-"] { margin: 0 !important; border-radius: 0 !important; min-height: 100%; background: #1e1e1e; }
 
+        /* --- Apple-style Reveal Animations (由近及远科技感) --- */
+        .reveal {
+            opacity: 0;
+            transform: scale(1.05) translateY(30px);
+            filter: blur(8px);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1); /* 苹果经典的顺滑阻尼曲线 */
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            filter: blur(0);
+        }
+        
+        /* 头屏专属巨幕拉伸动画 */
+        @keyframes heroScaleDown {
+            0% { opacity: 0; transform: scale(1.1) translateY(40px); filter: blur(12px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+        }
+        .reveal-hero {
+            animation: heroScaleDown 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
         /* --- Responsive Design --- */
         @media (max-width: 768px) {
             .nav-links { display: none; }
@@ -150,7 +172,7 @@
     <!-- Sticky Navigation -->
     <nav>
         <div class="nav-container">
-            <div class="logo">Tong<span class="en">.</span><span class="zh">吴.</span></div>
+            <div class="logo"><span class="en">Tong.</span><span class="zh">吴桐.</span></div>
             <div class="nav-right">
                 <ul class="nav-links">
                     <li><a href="#about" class="en">About</a><a href="#about" class="zh">关于我</a></li>
@@ -170,7 +192,7 @@
     <!-- 1. Hero Section -->
     <header id="hero">
         <div class="container">
-            <div class="hero-content">
+            <div class="hero-content reveal-hero">
                 <span class="hero-subtitle en">Supply Chain Expert & AI Architect</span>
                 <span class="hero-subtitle zh">供应链专家与AI架构师</span>
                 
@@ -749,6 +771,49 @@ if __name__ == '__main__':
             }
             document.getElementById('codeModal').classList.remove('active');
             document.body.style.overflow = 'auto'; // Restore scroll
+        }
+
+        // --- Apple-Style Animation Observer (滚动侦测) ---
+        function initAnimations() {
+            const animatedSelectors = [
+                '#about',
+                '.timeline-content',
+                '.card',
+                '.skills-category',
+                '.hobby-card',
+                '.contact-content'
+            ];
+            
+            // 为所有需要动画的区块加上初始的 reveal class
+            animatedSelectors.forEach(selector => {
+                document.querySelectorAll(selector).forEach(el => {
+                    el.classList.add('reveal');
+                });
+            });
+
+            const observerOptions = {
+                threshold: 0.1, // 元素出现10%时触发
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.reveal').forEach((el) => {
+                observer.observe(el);
+            });
+        }
+
+        // 确保页面加载完成后触发动画逻辑
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initAnimations);
+        } else {
+            initAnimations();
         }
     </script>
 </body>
