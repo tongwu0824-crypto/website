@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tong Wu | Portfolio</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Prism.js for Code Highlighting (Dark Theme) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    
+    <style>
+        /* --- CSS Variables & Reset --- */
+        :root {
+            --primary-color: #0f172a; /* Slate 900 */
+            --accent-color: #2563eb; /* Blue 600 */
+            --accent-hover: #1d4ed8; /* Blue 700 */
+            --bg-color: #f8fafc; /* Slate 50 */
+            --card-bg: #ffffff;
+            --text-main: #334155; /* Slate 700 */
+            --text-light: #64748b; /* Slate 500 */
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* --- Language Toggle Logic --- */
+        body.lang-en .zh { display: none !important; }
+        body.lang-zh .en { display: none !important; }
+
+        /* --- Typography & Utilities --- */
+        h1, h2, h3 { color: var(--primary-color); }
+        h2 { font-size: 2rem; margin-bottom: 2rem; position: relative; display: inline-block; }
+        h2::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 4px;
+            background-color: var(--accent-color);
+            bottom: -8px;
+            left: 0;
+            border-radius: 2px;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            border-radius: 4px;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: white;
+            border: 2px solid var(--accent-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+            color: white;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--accent-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* --- Navigation --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); }
+        .logo span { color: var(--accent-color); }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a {
+            font-weight: 600;
+            color: var(--text-light);
+            transition: var(--transition);
+        }
+        .nav-links a:hover { color: var(--accent-color); }
+
+        /* Lang Toggle Button */
+        .lang-toggle {
+            background: #e2e8f0;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .lang-toggle:hover {
+            background: #cbd5e1;
+        }
+        .lang-toggle .active-lang { color: var(--accent-color); }
+
+        /* --- Hero Section --- */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding-top: 60px;
+        }
+
+        .hero-content { max-width: 800px; }
+
+        .hero-subtitle {
+            color: var(--accent-color);
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        .hero-buttons { display: flex; gap: 1rem; }
+
+        /* --- About Section --- */
+        .about-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; }
+        .about-text p { margin-bottom: 1rem; }
+        .about-details {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .detail-item { margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 1rem; }
+        .detail-item i { color: var(--accent-color); font-size: 1.2rem; margin-top: 3px; }
+
+        /* --- Experience Section (Timeline) --- */
+        .timeline { position: relative; max-width: 800px; margin: 0 auto; }
+        .timeline::after {
+            content: ''; position: absolute; width: 2px; background-color: #e2e8f0;
+            top: 0; bottom: 0; left: 20px; margin-left: -1px;
+        }
+        .timeline-item { padding: 10px 0 30px 50px; position: relative; }
+        .timeline-item::after {
+            content: ''; position: absolute; width: 16px; height: 16px;
+            left: 12px; background-color: var(--card-bg); border: 3px solid var(--accent-color);
+            top: 15px; border-radius: 50%; z-index: 1;
+        }
+        .timeline-content {
+            background: var(--card-bg); padding: 1.5rem; border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.03); transition: var(--transition);
+        }
+        .timeline-content:hover { transform: translateY(-3px); box-shadow: 0 10px 15px rgba(0,0,0,0.05); }
+        .time-badge {
+            display: inline-block; padding: 0.2rem 0.8rem; background: #e0e7ff;
+            color: var(--accent-color); border-radius: 20px; font-size: 0.85rem;
+            font-weight: 600; margin-bottom: 0.5rem;
+        }
+        .timeline-content h3 { margin-bottom: 0.2rem; }
+        .timeline-content h4 { color: var(--text-light); font-weight: 400; margin-bottom: 1rem; font-size: 0.95rem;}
+        .timeline-content ul { padding-left: 1.2rem; color: var(--text-main); font-size: 0.95rem;}
+        .timeline-content li { margin-bottom: 0.5rem; }
+
+        /* --- Projects & Downloads Grid --- */
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .card {
+            background: var(--card-bg); border-radius: 12px; padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: var(--transition);
+            border: 1px solid #f1f5f9;
+            display: flex; flex-direction: column;
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 20px rgba(0,0,0,0.08); border-color: #e2e8f0; }
+        .card-icon { font-size: 2.5rem; color: var(--accent-color); margin-bottom: 1rem; }
+        .card h3 { margin-bottom: 0.5rem; font-size: 1.2rem;}
+        .card-subtitle { color: var(--text-light); font-size: 0.85rem; margin-bottom: 1rem; }
+        .card p { font-size: 0.95rem; margin-bottom: 1.5rem; color: var(--text-main); flex-grow: 1;}
+        
+        .tech-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+        .tech-tag { background: #f1f5f9; color: var(--text-light); font-size: 0.8rem; padding: 0.3rem 0.8rem; border-radius: 4px; font-weight: 600; }
+
+        .dl-links { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: auto;}
+
+        /* --- Skills Section --- */
+        .skills-category { margin-bottom: 2rem; }
+        .skills-category h3 { font-size: 1.2rem; margin-bottom: 1rem; color: var(--text-light); }
+        .skills-wrapper { display: flex; flex-wrap: wrap; gap: 1rem; }
+        .skill-badge {
+            background: white; border: 1px solid #e2e8f0; padding: 0.8rem 1.5rem;
+            border-radius: 30px; font-weight: 600; color: var(--primary-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: var(--transition);
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .skill-badge:hover { border-color: var(--accent-color); color: var(--accent-color); transform: scale(1.05); }
+
+        /* --- Hobbies Section --- */
+        .hobbies-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+        .hobby-card { text-align: center; padding: 2rem; background: #fff; border-radius: 12px; border: 1px dashed #cbd5e1; transition: var(--transition); }
+        .hobby-card:hover { border-style: solid; border-color: var(--accent-color); background: #f8fafc; }
+        .hobby-icon { font-size: 3rem; margin-bottom: 1rem; color: #64748b; }
+        .hobby-card:hover .hobby-icon { color: var(--accent-color); }
+
+        /* --- Contact Footer --- */
+        footer { background: var(--primary-color); color: white; text-align: center; padding: 4rem 2rem 2rem; }
+        .contact-content h2 { color: white; }
+        .contact-content h2::after { background-color: white; left: 25%; }
+        .social-links { display: flex; justify-content: center; gap: 1.5rem; margin: 2rem 0; }
+        .social-links a {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 50px; height: 50px; background: rgba(255,255,255,0.1);
+            border-radius: 50%; font-size: 1.5rem; transition: var(--transition);
+        }
+        .social-links a:hover { background: var(--accent-color); transform: translateY(-3px); }
+        .copyright { margin-top: 3rem; font-size: 0.9rem; color: #94a3b8; }
+
+        /* --- Code Modal Preview Styles --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(5px);
+            z-index: 2000; display: none; justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-content {
+            background: #1e1e1e; width: 90%; max-width: 900px; max-height: 85vh;
+            border-radius: 12px; display: flex; flex-direction: column;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5); overflow: hidden;
+            border: 1px solid #333;
+        }
+        .modal-header {
+            padding: 1rem 1.5rem; background: #252526; color: #fff;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #333;
+        }
+        .modal-title { font-weight: 600; font-family: monospace; font-size: 1.1rem; color: #4ade80;}
+        .close-modal {
+            background: none; border: none; color: #a1a1aa; font-size: 1.5rem;
+            cursor: pointer; transition: color 0.2s;
+        }
+        .close-modal:hover { color: #fff; }
+        .modal-body {
+            padding: 0; overflow-y: auto; flex-grow: 1; background: #1e1e1e;
+        }
+        /* Override Prism margin */
+        .modal-body pre[class*="language-"] {
+            margin: 0 !important; border-radius: 0 !important; min-height: 100%; background: #1e1e1e;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero-content h1 { font-size: 2.5rem; }
+            .about-grid { grid-template-columns: 1fr; }
+            .hero-buttons { flex-direction: column; }
+            .btn { text-align: center; }
+            .nav-right { gap: 1rem; }
+        }
+    </style>
+</head>
+<body class="lang-en">
+
+    <!-- Sticky Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">Tong<span class="en">.</span><span class="zh">吴.</span></div>
+            <div class="nav-right">
+                <ul class="nav-links">
+                    <li><a href="#about" class="en">About</a><a href="#about" class="zh">关于我</a></li>
+                    <li><a href="#experience" class="en">Experience</a><a href="#experience" class="zh">工作经验</a></li>
+                    <li><a href="#portfolio" class="en">Portfolio</a><a href="#portfolio" class="zh">作品库</a></li>
+                    <li><a href="#hobbies" class="en">Interests</a><a href="#hobbies" class="zh">个人爱好</a></li>
+                </ul>
+                <button class="lang-toggle" onclick="toggleLanguage()" title="Switch Language">
+                    <i class="fa-solid fa-globe"></i> 
+                    <span class="en"><strong class="active-lang">EN</strong> / 中文</span>
+                    <span class="zh">EN / <strong class="active-lang">中文</strong></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 1. Hero Section -->
+    <header id="hero">
+        <div class="container">
+            <div class="hero-content">
+                <span class="hero-subtitle en">Supply Chain Expert & AI Architect</span>
+                <span class="hero-subtitle zh">供应链专家与AI架构师</span>
+                
+                <h1 class="en">Hi, I'm Tong Wu. <br>I build intelligent workflows.</h1>
+                <h1 class="zh">你好，我是吴桐。<br>我专注于构建智能工作流。</h1>
+                
+                <p class="en">Bridging the gap between technical AI architecture and real-world business outcomes. With an M.Sc. in Economics & Finance and a Six Sigma Green Belt, I specialize in Supply Chain Planning, Last-Mile Delivery, and developing robust AI Agents.</p>
+                <p class="zh">连接AI技术架构与真实商业成果的桥梁。我拥有经济与金融学硕士学位及六西格玛绿带认证，深耕于供应链规划、最后一公里交付，并擅长开发高效的AI智能体(AI Agents)。</p>
+                
+                <div class="hero-buttons">
+                    <a href="#portfolio" class="btn btn-primary">
+                        <span class="en">Explore My Work</span><span class="zh">查看我的作品</span>
+                    </a>
+                    <a href="#contact" class="btn btn-outline">
+                        <span class="en">Contact Me</span><span class="zh">联系我</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. About Me -->
+    <section id="about" class="container">
+        <h2 class="en">About Me</h2>
+        <h2 class="zh">关于我</h2>
+        <div class="about-grid">
+            <div class="about-text">
+                <div class="en">
+                    <p>I am a unique blend of a <strong>Supply Chain Professional</strong> and a <strong>Hands-on AI Developer</strong>. Based in Düsseldorf, Germany, I have a proven track record of optimizing B2C/B2B omnichannel order fulfillment for global tech giants like Amazon, Xiaomi, and Huawei.</p>
+                    <p>Beyond logistics, I am passionate about automation. I engineer customized AI agents using Python, Claude Code, OpenClaw, and MCP. By applying a code-level understanding of AI agent architecture, I transform complex operational bottlenecks into streamlined, automated workflows.</p>
+                    <p>My dual expertise allows me to not only identify business pain points but to actually build the technical solutions that solve them.</p>
+                </div>
+                <div class="zh">
+                    <p>我将<strong>供应链运营专长</strong>与<strong>AI开发能力</strong>进行了深度结合。我目前位于德国杜塞尔多夫，在为亚马逊、小米和华为等全球科技巨头优化B2C/B2B全渠道订单履行方面拥有丰富的实战经验。</p>
+                    <p>在物流领域之外，我对自动化技术充满热情。我使用Python、Claude Code、OpenClaw和MCP等技术独立开发定制化的AI智能体。通过对AI底层架构（规划、记忆、工具调用）的深刻理解，我能够将复杂的运营瓶颈转化为流畅的自动化工作流。</p>
+                    <p>这种双重背景使我不仅能精准定位业务痛点，还能直接动手构建解决这些问题的底层技术方案。</p>
+                </div>
+            </div>
+            <div class="about-details">
+                <div class="detail-item">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <div>
+                        <strong class="en">Location</strong><strong class="zh">所在地</strong><br>
+                        <span style="color: var(--text-light)">Düsseldorf, Germany (EU Blue Card)</span>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <div>
+                        <strong class="en">Education</strong><strong class="zh">教育背景</strong><br>
+                        <span style="color: var(--text-light)">M.Sc. Economics & Finance<br>(University of Freiburg)</span>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <i class="fa-solid fa-language"></i>
+                    <div>
+                        <strong class="en">Languages</strong><strong class="zh">语言能力</strong><br>
+                        <span style="color: var(--text-light)">
+                            <span class="en">Chinese (Native), English (C2), German (C1), Japanese (N4)</span>
+                            <span class="zh">中文(母语), 英语(C2), 德语(C1), 日语(N4)</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <i class="fa-solid fa-certificate"></i>
+                    <div>
+                        <strong class="en">Certification</strong><strong class="zh">专业认证</strong><br>
+                        <span style="color: var(--text-light)" class="en">Six Sigma Green Belt</span>
+                        <span style="color: var(--text-light)" class="zh">六西格玛绿带认证</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Experience -->
+    <section id="experience" style="background-color: white;">
+        <div class="container">
+            <h2 class="en">Work Experience</h2>
+            <h2 class="zh">工作经验</h2>
+            <div class="timeline">
+                
+                <!-- Amazon -->
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <span class="time-badge">Sep 2025 - Jan 2026</span>
+                        <h3 class="en">Process Excellence Manager</h3>
+                        <h3 class="zh">流程卓越经理 (Process Excellence Manager)</h3>
+                        <h4>Amazon - Hamburg-Nutzen (DHH2)</h4>
+                        <ul class="en">
+                            <li>Co-managed daily station operations directing 100+ associates, sustaining a <strong>99.5% DEA rate</strong> and maintaining strict 100% safety compliance.</li>
+                            <li>Evaluated 16 DSPs via data-driven approach across 100+ KPIs, translating insights into Lean process improvements to boost labor productivity.</li>
+                            <li>Built custom automation tools (Tampermonkey + VBA) to streamline reporting, saving management <strong>6+ hours/week</strong>.</li>
+                        </ul>
+                        <ul class="zh">
+                            <li>共同管理配送站日常运营，指导100多名员工，维持了<strong>99.5%的交付率(DEA)</strong>并保持100%的安全合规。</li>
+                            <li>通过数据驱动的方式评估16家DSP服务商的100多项KPI，将数据洞察转化为精益流程改进，提升劳动力生产率。</li>
+                            <li>开发并部署自定义自动化工具（Tampermonkey + VBA）以简化报告流程，为管理层<strong>每周节省6小时以上</strong>。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Xiaomi -->
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <span class="time-badge">Jun 2024 - Aug 2025</span>
+                        <h3 class="en">Supply Chain Delivery Manager</h3>
+                        <h3 class="zh">供应链交付经理</h3>
+                        <h4>Xiaomi Technology - Düsseldorf</h4>
+                        <ul class="en">
+                            <li>Managed B2B/B2C omnichannel order fulfillment (≈350k units/year) for Key Accounts in Germany and the Netherlands.</li>
+                            <li>Led CPFR demand planning, translated insights into 12-month rolling supply plans, and optimized inventory turnover (ITO).</li>
+                            <li>Designed and built a proprietary internal delivery platform, establishing SOPs and delivering structured KPI reports to reduce logistics costs.</li>
+                        </ul>
+                        <ul class="zh">
+                            <li>负责德国及荷兰大客户(Key Accounts)的B2B/B2C全渠道订单履行（年约35万台设备）。</li>
+                            <li>领导CPFR需求规划，制定12个月滚动供应计划，优化库存周转率(ITO)。</li>
+                            <li>设计并构建了内部专属交付数据平台，建立SOP并提供结构化的KPI报告，有效降低物流成本。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Huawei -->
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <span class="time-badge">Dec 2023 - Jun 2024</span>
+                        <h3 class="en">EU Certification Specialist</h3>
+                        <h3 class="zh">欧洲认证专员</h3>
+                        <h4>Huawei - Düsseldorf</h4>
+                        <ul class="en">
+                            <li>Rebuilt the Western Europe certification platform; managed Q-EHS (ISO 9001/14001/45001) and ESG compliance modules.</li>
+                        </ul>
+                        <ul class="zh">
+                            <li>重建西欧区认证平台；管理Q-EHS (ISO 9001/14001/45001)及ESG合规模块。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                 <!-- Univ Freiburg -->
+                 <div class="timeline-item">
+                    <div class="timeline-content">
+                        <span class="time-badge">Oct 2022 - Feb 2024</span>
+                        <h3 class="en">Graduate Teaching & Research Assistant</h3>
+                        <h3 class="zh">研究生助教与科研助理</h3>
+                        <h4>University of Freiburg</h4>
+                        <ul class="en">
+                            <li>Tutored Advanced Macroeconomics, Econometrics; provided Python support. Supported UBI & game-theory research using R and Z-tree.</li>
+                        </ul>
+                        <ul class="zh">
+                            <li>担任高级宏观经济学、计量经济学助教；提供Python编程辅导。使用R语言和Z-tree支持全民基本收入(UBI)及博弈论研究。</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Portfolio & Downloads (PDFs via target="_blank", Code via Modal) -->
+    <section id="portfolio" class="container">
+        <h2 class="en">Portfolio & Documents</h2>
+        <h2 class="zh">作品库与文档阅览</h2>
+        <div class="en"><p style="margin-bottom: 2rem; color: var(--text-light);">A curated collection of my academic papers, custom code scripts, certifications, and professional references. <strong>PDFs will open securely in a new tab. Code scripts will open in an interactive pop-up viewer.</strong></p></div>
+        <div class="zh"><p style="margin-bottom: 2rem; color: var(--text-light);">这里收录了我的学术论文、自主编写的代码脚本、专业资质证书以及雇主推荐信。<strong>为保护隐私和提升体验，点击PDF将在新标签页安全预览（不强制下载），点击代码将直接在网页内弹窗高亮显示。</strong></p></div>
+        
+        <div class="grid-cards">
+            
+            <!-- Code Portfolio -->
+            <div class="card">
+                <i class="fa-solid fa-code card-icon"></i>
+                <h3 class="en">Programming & Code</h3>
+                <h3 class="zh">编程与代码项目</h3>
+                <div class="card-subtitle en">Python & JavaScript Automation</div>
+                <div class="card-subtitle zh">Python 与 JS 自动化脚本</div>
+                <p class="en">Practical scripts demonstrating my ability to automate workflows and integrate AI models. Includes a Tampermonkey script for Amazon systems and a LangChain PDF reader.</p>
+                <p class="zh">展示自动化工作流和整合AI大模型能力的代码片段。包含为亚马逊内部系统编写的Tampermonkey增强脚本，以及基于LangChain的PDF阅读器代码。</p>
+                <div class="dl-links">
+                    <a href="javascript:void(0)" onclick="openCodeModal('code-tm', 'PerfectMile Caravan – Auto Expand.user.js', 'javascript')" class="btn btn-outline btn-sm"><i class="fa-brands fa-js"></i> Preview Tampermonkey Script</a>
+                    <a href="javascript:void(0)" onclick="openCodeModal('code-lc-pinecone', 'Langchain+Pinecone.py', 'python')" class="btn btn-outline btn-sm"><i class="fa-brands fa-python"></i> Preview Pinecone.py</a>
+                    <a href="javascript:void(0)" onclick="openCodeModal('code-lc-pdf', 'Langchain PDF App.py', 'python')" class="btn btn-outline btn-sm"><i class="fa-brands fa-python"></i> Preview PDF App.py</a>
+                </div>
+            </div>
+
+            <!-- Academic Papers -->
+            <div class="card">
+                <i class="fa-solid fa-book-journal-whills card-icon"></i>
+                <h3 class="en">Academic Research</h3>
+                <h3 class="zh">学术研究论文</h3>
+                <div class="card-subtitle en">University of Freiburg</div>
+                <div class="card-subtitle zh">弗莱堡大学</div>
+                <p class="en">Explorations at the intersection of economics and technology. Covering Universal Basic Income (UBI) in the AI era and the socio-economic impacts of the GPT ecosystem.</p>
+                <p class="zh">探索经济学与前沿科技的交叉领域。研究课题涵盖AI时代的全民基本收入(UBI)以及GPT生态系统对社会经济的深远影响。</p>
+                <div class="dl-links">
+                    <a href="Master's Thesis _ Tong_Wu_5163957.pdf" target="_blank" class="btn btn-outline btn-sm"><i class="fa-solid fa-file-pdf"></i> Read Master's Thesis</a>
+                    <a href="Big change! Not big enough. The rise of the GPT ecosystem-TongWu, Final.pdf" target="_blank" class="btn btn-outline btn-sm"><i class="fa-solid fa-file-pdf"></i> Read GPT Ecosystem Paper</a>
+                </div>
+            </div>
+
+            <!-- Certificates -->
+            <div class="card">
+                <i class="fa-solid fa-award card-icon"></i>
+                <h3 class="en">Certifications</h3>
+                <h3 class="zh">专业资质认证</h3>
+                <div class="card-subtitle en">Coursera & Institutions</div>
+                <div class="card-subtitle zh">Coursera 及专业机构</div>
+                <p class="en">Verified professional credentials spanning Six Sigma, Data Analytics, Python Automation, Machine Learning, and Business Analysis.</p>
+                <p class="zh">涵盖多个领域的核心资质证明，包括六西格玛绿带、谷歌数据分析、Python自动化、斯坦福机器学习及高级商业分析(CBAP)。</p>
+                <div class="dl-links">
+                    <a href="Zertifizierungen .pdf" target="_blank" class="btn btn-primary btn-sm"><i class="fa-solid fa-eye"></i> View All Certificates</a>
+                </div>
+            </div>
+
+            <!-- References -->
+            <div class="card">
+                <i class="fa-solid fa-envelope-open-text card-icon"></i>
+                <h3 class="en">Reference Letters</h3>
+                <h3 class="zh">工作与学术推荐信</h3>
+                <div class="card-subtitle en">Professional Endorsements</div>
+                <div class="card-subtitle zh">来自雇主与教授的认可</div>
+                <p class="en">Official letters of recommendation from my tenure at Xiaomi, Huawei (Adecco), AEEC, and professors at the University of Freiburg.</p>
+                <p class="zh">收录了我在小米、华为、AEEC任职期间的官方推荐信，以及弗莱堡大学教授的学术推荐信。</p>
+                <div class="dl-links">
+                    <a href="Reference Letter - All.pdf" target="_blank" class="btn btn-primary btn-sm"><i class="fa-solid fa-eye"></i> View Reference Letters</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 5. Skills -->
+    <section id="skills" style="background-color: white;">
+        <div class="container">
+            <h2 class="en">Core Competencies</h2>
+            <h2 class="zh">核心技能矩阵</h2>
+            
+            <div class="skills-category">
+                <h3 class="en">Supply Chain & Operations</h3>
+                <h3 class="zh">供应链与运营管理</h3>
+                <div class="skills-wrapper">
+                    <span class="skill-badge"><i class="fa-solid fa-box-open"></i> Last-Mile Delivery</span>
+                    <span class="skill-badge"><i class="fa-solid fa-chart-line"></i> Demand Planning (CPFR)</span>
+                    <span class="skill-badge"><i class="fa-solid fa-users-gear"></i> DSP Management</span>
+                    <span class="skill-badge"><i class="fa-solid fa-award"></i> Six Sigma Green Belt</span>
+                    <span class="skill-badge"><i class="fa-solid fa-file-invoice"></i> SAP & ERP</span>
+                </div>
+            </div>
+
+            <div class="skills-category">
+                <h3 class="en">AI & Software Engineering</h3>
+                <h3 class="zh">人工智能与软件开发</h3>
+                <div class="skills-wrapper">
+                    <span class="skill-badge"><i class="fa-brands fa-python"></i> Python</span>
+                    <span class="skill-badge"><i class="fa-solid fa-robot"></i> AI Agent Building</span>
+                    <span class="skill-badge"><i class="fa-solid fa-terminal"></i> Prompt Engineering</span>
+                    <span class="skill-badge"><i class="fa-solid fa-code-branch"></i> MCP / OpenClaw</span>
+                    <span class="skill-badge"><i class="fa-solid fa-laptop-code"></i> VBA / Tampermonkey</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 6. Hobbies & Philosophy -->
+    <section id="hobbies" class="container">
+        <h2 class="en">Interests & Philosophy</h2>
+        <h2 class="zh">个人爱好与哲学探索</h2>
+        <div class="en"><p style="margin-bottom: 2rem; color: var(--text-light); max-width: 800px;">Beyond the logical world of algorithms, supply chains, and data models, I possess a deep fascination with traditional Eastern metaphysics. I believe that understanding the ancient wisdom of change and balance offers a unique perspective on navigating modern complexities.</p></div>
+        <div class="zh"><p style="margin-bottom: 2rem; color: var(--text-light); max-width: 800px;">在由算法、供应链和数据模型构成的严谨世界之外，我对东方传统玄学与哲学有着深厚的兴趣。我相信，理解古代关于“变易”与“平衡”的智慧，能为我们在处理现代复杂系统时提供一种独特的降维视角。</p></div>
+        
+        <div class="hobbies-grid">
+            <div class="hobby-card">
+                <i class="fa-solid fa-yin-yang hobby-icon"></i>
+                <h3 class="en">BaZi (Four Pillars)</h3>
+                <h3 class="zh">八字命理</h3>
+                <p class="en">Studying the complex interactions of the Five Elements (Wu Xing) to understand natural life cycles and systemic balance.</p>
+                <p class="zh">研究五行生克制化的复杂互动系统，探索生命周期与自然规律的底层逻辑与平衡之道。</p>
+            </div>
+            
+            <div class="hobby-card">
+                <i class="fa-solid fa-book-open-reader hobby-icon"></i>
+                <h3 class="en">I Ching (Book of Changes)</h3>
+                <h3 class="zh">易经研读</h3>
+                <p class="en">Exploring ancient hexagrams to grasp the philosophy of constant change, adapting strategic decision-making in dynamic environments.</p>
+                <p class="zh">通过卦象推演理解“变易”的哲学，将古人的战略决策思维应用于现代动态环境的分析中。</p>
+            </div>
+
+            <div class="hobby-card">
+                <i class="fa-solid fa-moon hobby-icon"></i>
+                <h3 class="en">Divination Arts</h3>
+                <h3 class="zh">术数与占卜</h3>
+                <p class="en">Using traditional divination as a psychological and reflective tool to approach problems from non-linear, intuitive angles.</p>
+                <p class="zh">将传统术数作为一种心理投射与自我反思的工具，跳出线性逻辑，从直觉与全息的角度拆解难题。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. Contact & Footer -->
+    <footer id="contact">
+        <div class="container contact-content" style="padding-top: 0; padding-bottom: 0;">
+            <h2 class="en" style="color: white;">Let's Build Something Great</h2>
+            <h2 class="zh" style="color: white;">期待与您的合作</h2>
+            <p class="en" style="margin-bottom: 2rem; color: #cbd5e1; max-width: 600px; margin-left: auto; margin-right: auto;">Whether it's optimizing supply chain logistics or engineering the next AI workflow, I'm ready for the challenge.</p>
+            <p class="zh" style="margin-bottom: 2rem; color: #cbd5e1; max-width: 600px; margin-left: auto; margin-right: auto;">无论是优化供应链底层逻辑，还是构建下一代AI自动化工作流，我都已准备好迎接挑战。</p>
+            
+            <a href="mailto:tongwu0824@gmail.com" class="btn btn-primary" style="background-color: white; color: var(--primary-color); border-color: white;">
+                <i class="fa-solid fa-envelope" style="margin-right: 8px;"></i> tongwu0824@gmail.com
+            </a>
+
+            <div class="social-links">
+                <a href="https://linkedin.com/in/tongwu3" target="_blank" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                <a href="tel:+491742575793" title="Phone"><i class="fa-solid fa-phone"></i></a>
+            </div>
+
+            <div class="copyright">
+                &copy; 2026 Tong Wu. Built with static HTML, CSS & JavaScript.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Code Modal Component -->
+    <div class="modal-overlay" id="codeModal" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">script.js</div>
+                <button class="close-modal" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <pre><code id="modalCode" class="language-javascript"></code></pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- Embedded Code Scripts (Hidden from view, used for modal) -->
+<script type="text/plain" id="code-lc-pinecone">
+#!/usr/bin/env python
+# coding: utf-8
+
+# PDF Loaders. If unstructured gives you a hard time, try PyPDFLoader
+from langchain.document_loaders import UnstructuredPDFLoader, OnlinePDFLoader, PyPDFLoader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+import os
+
+#Load your data
+loader = PyPDFLoader("E:/Users/tong/Downloads/Documents/field-guide-to-data-science.pdf")
+
+data = loader.load()
+# Note: If you're using PyPDFLoader then it will split by page for you already
+print (f'You have {len(data)} document(s) in your data')
+print (f'There are {len(data[30].page_content)} characters in your document')
+
+#Chunk your data up into smaller documents
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=0)
+texts = text_splitter.split_documents(data)
+print (f'Now you have {len(texts)} documents')
+
+#Create embeddings of your documents to get ready for semantic search
+from langchain.vectorstores import Chroma, Pinecone
+from langchain.embeddings.openai import OpenAIEmbeddings
+import pinecone
+
+# Check to see if there is an environment variable with you API keys
+OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY', 'sk-xxxxxxxxxxxxxxxxxxxxxxxx')
+embeddings = OpenAIEmbeddings(openai_api_key='sk-xxxxxxxxxxxxxxxxxxxxxxxx')
+
+# initialize pinecone
+pinecone.init(
+    api_key='32d71f85-60fe-4982-adf7-a8e25ce87dbf',  # find at app.pinecone.io
+    environment='us-central1-gcp'  # next to api key in console
+)
+index_name = "langchain-index" 
+
+docsearch = Pinecone.from_texts([t.page_content for t in texts], embeddings, index_name=index_name)
+
+query = "What are examples of good data science teams?"
+docs = docsearch.similarity_search(query)
+
+from langchain.llms import OpenAI
+from langchain.chains.question_answering import load_qa_chain
+
+llm = OpenAI(temperature=0, openai_api_key=OPENAI_API_KEY)
+chain = load_qa_chain(llm, chain_type="stuff")
+
+query = "Tell me some pros on how to effectively analyze data?"
+docs = docsearch.similarity_search(query)
+
+chain.run(input_documents=docs, question=query)
+</script>
+
+<script type="text/plain" id="code-lc-pdf">
+import streamlit as st
+from PyPDF2 import PdfReader
+from langchain.text_splitter import CharacterTextSplitter
+from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain.vectorstores import FAISS
+from langchain.chains.question_answering import load_qa_chain
+from langchain.llms import OpenAI
+from langchain.callbacks import get_openai_callback
+
+def main():
+    # load_dotenv()
+    st.set_page_config(page_title="PDFreader", layout="wide", initial_sidebar_state="expanded")
+    st.markdown("""
+    <style>
+    .reportview-container {
+        background: #f0f0f0
+    }
+    </style>
+    """, unsafe_allow_html=True)
+    st.title("PDFreader")
+    
+    # Upload file
+    pdf = st.file_uploader("Upload your PDF", type="pdf")
+    
+    # Extract the text
+    if pdf is not None:
+        pdf_reader = PdfReader(pdf)
+        text = ""
+        for page in pdf_reader.pages:
+            text += page.extract_text()
+        
+        # Split into chunks
+        text_splitter = CharacterTextSplitter(
+            separator="\n",
+            chunk_size=1000,
+            chunk_overlap=200,
+            length_function=len
+        )
+        chunks = text_splitter.split_text(text)
+      
+        # Create embeddings
+        embeddings = OpenAIEmbeddings()
+        knowledge_base = FAISS.from_texts(chunks, embeddings)
+      
+        # Prompt user input
+        user_question = st.text_input("Ask a question about your PDF:")
+        if user_question:
+            # Perform similarity search
+            docs = knowledge_base.similarity_search(user_question)
+        
+            # Load question-answering chain
+            llm = OpenAI()
+            chain = load_qa_chain(llm, chain_type="stuff")
+            
+            # Handle OpenAI callback
+            with get_openai_callback() as cb:
+                # Execute question-answering chain
+                response = chain.run(input_documents=docs, question=user_question)
+                print(cb)
+           
+            # Display response
+            st.write(response)
+    
+if __name__ == '__main__':
+    main()
+</script>
+
+<script type="text/plain" id="code-tm">
+// ==UserScript==
+// @name         PerfectMile Caravan – Auto Expand
+// @namespace    http://tampermonkey.net/
+// @version      1.4
+// @contributor  tongwug@
+// @description  Deep Hierarchy, WoW%, Heatmap, Async Expand, CSV Export, Hide/Show Toolbar
+// @match        https://perfectmile.a2z.com/*
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    // --- CONFIGURATION ---
+    const CHECK_INTERVAL_MS = 2000;
+    const EXPAND_WAIT_MS    = 1000;
+    const CLICK_DELAY_MS    = 50;
+    const MAX_RETRIES       = 30;
+    const CONTAINER_CLASS   = 'pm-suite-container';
+    const TOOLBAR_HIDDEN_KEY = 'pm-suite-toolbar-hidden';
+
+    // --- SYSTEM LOGGER ---
+    let logHistory = [];
+    function logSystem(msg) {
+        const timestamp = new Date().toLocaleTimeString();
+        logHistory.push('[' + timestamp + '] ' + msg);
+        console.log('[PM Suite] ' + msg);
+    }
+
+    // --- UTILS ---
+    function parseValue(text) {
+        if (!text || text.trim() === '-' || text.trim() === '' || text.trim() === 'N/A') return -999999;
+        let clean = text.replace(/,/g, '').replace(/%/g, '').replace(/bps/i, '').trim();
+        let num = parseFloat(clean);
+        return isNaN(num) ? -999999 : num;
+    }
+
+    function calculateWoW(curr, prev) {
+        if (curr === -999999 || prev === -999999 || prev === 0) return { text: '-', color: '#9ca3af' };
+        const change = ((curr - prev) / prev) * 100;
+        const arrow = change > 0 ? '↑' : (change < 0 ? '↓' : '-');
+        const color = change > 0 ? '#16a34a' : (change < 0 ? '#dc2626' : '#9ca3af');
+        return { text: arrow + ' ' + Math.abs(change).toFixed(1) + '%', color: color };
+    }
+
+    // --- MAIN INJECTION ---
+    function injectMainButtons() {
+        var tables = document.querySelectorAll('table');
+        tables.forEach(function(table, idx) {
+            if (table.dataset.tmSuiteInjected === 'true') return;
+            if (!table.parentNode) return;
+
+            var hasExpanders = table.querySelector('span[aria-label="Expand row"]') !== null;
+            if (!hasExpanders) return;
+
+            table.dataset.tmSuiteInjected = 'true';
+            logSystem('Injecting buttons for table ' + (idx + 1));
+            
+            // Note: Truncated for preview. Script handles deep UI DOM traversal, 
+            // automated clicks, data extraction, and CSV generation for operations.
+        });
+    }
+
+    function run() {
+        injectMainButtons();
+    }
+
+    logSystem('PerfectMile Caravan Analyzer Suite v1.4 initialized');
+    run();
+    setInterval(run, CHECK_INTERVAL_MS);
+})();
+</script>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+    <!-- UI Interaction Scripts -->
+    <script>
+        // Language Toggle
+        function toggleLanguage() {
+            const body = document.body;
+            if (body.classList.contains('lang-en')) {
+                body.classList.remove('lang-en');
+                body.classList.add('lang-zh');
+            } else {
+                body.classList.remove('lang-zh');
+                body.classList.add('lang-en');
+            }
+        }
+
+        // Code Modal Logic
+        function openCodeModal(elementId, title, language) {
+            const codeContent = document.getElementById(elementId).textContent.trim();
+            const modal = document.getElementById('codeModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalCode = document.getElementById('modalCode');
+            
+            modalTitle.textContent = title;
+            modalCode.className = 'language-' + language;
+            modalCode.textContent = codeContent;
+            
+            Prism.highlightElement(modalCode);
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Stop background scroll
+        }
+
+        function closeModal(e) {
+            // Close if clicking outside or on the close button
+            if (e && e.target.id !== 'codeModal' && !e.target.closest('.close-modal')) {
+                return;
+            }
+            document.getElementById('codeModal').classList.remove('active');
+            document.body.style.overflow = 'auto'; // Restore scroll
+        }
+    </script>
+</body>
+</html>
