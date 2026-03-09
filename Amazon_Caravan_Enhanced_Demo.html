@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PerfectMile Analytics | Caravan Suite v2</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --amazon-dark: #232f3e;
+            --amazon-orange: #ff9900;
+            --amazon-blue: #146eb4;
+            --primary: #1a56db;
+            --primary-light: #e8f0fe;
+            --success: #0d9488;
+            --success-light: #f0fdf9;
+            --warning: #d97706;
+            --warning-light: #fffbeb;
+            --danger: #dc2626;
+            --danger-light: #fef2f2;
+            --purple: #7c3aed;
+            --purple-light: #f5f3ff;
+            --bg: #f0f4f8;
+            --surface: #ffffff;
+            --surface-2: #f8fafc;
+            --border: #e2e8f0;
+            --text: #0f172a;
+            --text-2: #475569;
+            --text-3: #94a3b8;
+            --mono: 'IBM Plex Mono', monospace;
+            --sans: 'Sora', sans-serif;
+            --radius: 10px;
+            --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.06);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: var(--sans);
+            background: var(--bg);
+            margin: 0;
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── Navbar ── */
+        .navbar {
+            background: var(--amazon-dark);
+            height: 54px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            gap: 20px;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+        }
+        .nav-brand {
+            font-weight: 800;
+            font-size: 17px;
+            color: #fff;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .nav-brand .accent { color: var(--amazon-orange); }
+        .nav-badge {
+            background: var(--amazon-orange);
+            color: #000;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 20px;
+            letter-spacing: 0.05em;
+        }
+        .nav-right {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+        .nav-dot { width: 7px; height: 7px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 6px #22c55e; }
+
+        /* ── Layout ── */
+        .layout {
+            display: flex;
+            margin-top: 54px;
+            min-height: calc(100vh - 54px);
+        }
+
+        /* ── Sidebar ── */
+        .sidebar {
+            width: 260px;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            position: fixed;
+            top: 54px;
+            bottom: 0;
+            left: 0;
+            overflow-y: auto;
+            padding: 16px 12px;
+            z-index: 50;
+        }
+        .sidebar-section {
+            margin-bottom: 20px;
+        }
+        .sidebar-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-3);
+            padding: 0 8px;
+            margin-bottom: 6px;
+        }
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            border-radius: 7px;
+            font-size: 12.5px;
+            font-weight: 500;
+            color: var(--text-2);
+            cursor: pointer;
+            transition: all 0.15s;
+            user-select: none;
+        }
+        .sidebar-item:hover { background: var(--surface-2); color: var(--text); }
+        .sidebar-item.active { background: var(--primary-light); color: var(--primary); font-weight: 600; }
+        .sidebar-item .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+        /* ── Toolbar ── */
+        .toolbar {
+            position: fixed;
+            top: 66px;
+            left: 50%;
+            transform: translateX(-50%) translateX(130px);
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.6);
+            border-radius: 100px;
+            padding: 6px 8px;
+            display: flex;
+            gap: 4px;
+            z-index: 90;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.14), 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .tb-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 7px 14px;
+            border: none;
+            border-radius: 100px;
+            font-family: var(--sans);
+            font-size: 12.5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+            color: white;
+            white-space: nowrap;
+        }
+        .tb-btn:hover { filter: brightness(1.12); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.18); }
+        .tb-btn:active { transform: translateY(0); }
+        .tb-btn.indigo { background: #4f46e5; }
+        .tb-btn.cyan   { background: #0891b2; }
+        .tb-btn.rose   { background: #e11d48; }
+        .tb-btn.amber  { background: #d97706; }
+        .tb-btn.slate  { background: #64748b; }
+        .tb-btn.teal   { background: #0d9488; }
+
+        /* ── Main Content ── */
+        .main {
+            margin-left: 260px;
+            flex: 1;
+            padding: 20px;
+            padding-top: 62px;
+        }
+
+        /* ── Page Header ── */
+        .page-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .page-header h1 {
+            font-size: 22px;
+            font-weight: 800;
+            margin: 0;
+            color: var(--text);
+            letter-spacing: -0.5px;
+        }
+        .page-header p { color: var(--text-2); margin: 3px 0 0; font-size: 13px; }
+
+        /* ── Summary KPI Cards ── */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .kpi-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 14px 16px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .kpi-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+        }
+        .kpi-card.blue::before { background: var(--primary); }
+        .kpi-card.green::before { background: var(--success); }
+        .kpi-card.orange::before { background: var(--warning); }
+        .kpi-card.red::before { background: var(--danger); }
+        .kpi-card.purple::before { background: var(--purple); }
+        .kpi-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-3); margin-bottom: 6px; }
+        .kpi-value { font-size: 22px; font-weight: 800; color: var(--text); font-family: var(--mono); letter-spacing: -1px; }
+        .kpi-delta { font-size: 11px; font-weight: 600; margin-top: 4px; display: flex; align-items: center; gap: 3px; }
+        .kpi-delta.up { color: var(--danger); }
+        .kpi-delta.down { color: var(--success); }
+        .kpi-delta.good-up { color: var(--success); }
+        .kpi-delta.good-down { color: var(--danger); }
+
+        /* ── Table Card ── */
+        .table-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .table-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            background: var(--surface-2);
+        }
+        .table-toolbar-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .table-title { font-size: 14px; font-weight: 700; color: var(--text); }
+        .table-meta { font-size: 11.5px; color: var(--text-3); }
+        .expand-all-btn, .collapse-all-btn {
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-family: var(--sans);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+            border: 1px solid var(--border);
+        }
+        .expand-all-btn { background: var(--primary-light); color: var(--primary); border-color: #bfdbfe; }
+        .expand-all-btn:hover { background: var(--primary); color: white; }
+        .collapse-all-btn { background: var(--surface); color: var(--text-2); }
+        .collapse-all-btn:hover { background: var(--surface-2); }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12.5px;
+        }
+
+        thead th {
+            background: #f1f5f9;
+            color: var(--text-2);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-size: 10.5px;
+            padding: 11px 16px;
+            text-align: right;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+            position: sticky;
+            top: 0;
+            z-index: 5;
+        }
+        thead th:first-child { text-align: left; }
+
+        td {
+            padding: 10px 16px;
+            border-bottom: 1px solid #f1f5f9;
+            text-align: right;
+            vertical-align: middle;
+            transition: background 0.12s;
+        }
+        td:first-child { text-align: left; }
+        tr:hover td { background: #fafbff; }
+        tr:last-child td { border-bottom: none; }
+
+        /* ── Row Levels ── */
+        .lvl-0 td {
+            background: #f8fafc;
+            font-weight: 700;
+            font-size: 13px;
+            color: var(--text);
+            border-top: 2px solid var(--border);
+            padding-top: 14px;
+            padding-bottom: 14px;
+        }
+        .lvl-0:hover td { background: #f1f5f9; }
+
+        .lvl-1 td:first-child {
+            padding-left: 44px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .lvl-2 td {
+            color: var(--text-2);
+            font-size: 12px;
+        }
+        .lvl-2 td:first-child { padding-left: 76px; }
+
+        /* ── Expand Button ── */
+        .expand-btn {
+            background: none;
+            border: 1px solid var(--border);
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-right: 8px;
+            font-size: 9px;
+            color: var(--text-3);
+            transition: all 0.15s;
+            flex-shrink: 0;
+            vertical-align: middle;
+        }
+        .expand-btn:hover { background: var(--primary-light); border-color: var(--primary); color: var(--primary); }
+        .expand-btn.open { background: var(--primary); border-color: var(--primary); color: white; transform: rotate(0deg); }
+        .expand-btn .chevron { transition: transform 0.2s; display: inline-block; }
+        .expand-btn.open .chevron { transform: rotate(90deg); }
+
+        .hidden-row { display: none; }
+
+        /* ── Badges ── */
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+        }
+        .badge-red { background: #fee2e2; color: #991b1b; }
+        .badge-green { background: #d1fae5; color: #065f46; }
+        .badge-amber { background: #fef3c7; color: #92400e; }
+        .badge-blue { background: #dbeafe; color: #1e40af; }
+
+        /* ── Value cells ── */
+        .val { font-family: var(--mono); font-size: 12px; }
+        .val-bad { color: var(--danger); font-weight: 700; }
+        .val-good { color: var(--success); font-weight: 700; }
+        .val-warn { color: var(--warning); font-weight: 700; }
+
+        .wow-up { color: var(--danger); font-weight: 600; font-size: 11px; font-family: var(--mono); }
+        .wow-down { color: var(--success); font-weight: 600; font-size: 11px; font-family: var(--mono); }
+        .wow-flat { color: var(--text-3); font-size: 11px; font-family: var(--mono); }
+
+        /* ── Highlight rows ── */
+        .row-bottom td { background: #fef2f2 !important; }
+        .row-bottom td:first-child { border-left: 3px solid var(--danger); }
+        .row-top td { background: #f0fdf4 !important; }
+        .row-top td:first-child { border-left: 3px solid var(--success); }
+
+        /* ── Sparkline ── */
+        .spark { display: inline-block; vertical-align: middle; margin-left: 4px; }
+
+        /* ── Modal ── */
+        .modal-overlay {
+            position: fixed; inset: 0;
+            background: rgba(15,23,42,0.6);
+            backdrop-filter: blur(8px);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.25s;
+        }
+        .modal-overlay.open { opacity: 1; }
+        .modal {
+            background: var(--surface);
+            width: 92%;
+            max-width: 1080px;
+            max-height: 88vh;
+            border-radius: 16px;
+            box-shadow: 0 32px 64px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: scale(0.94) translateY(10px);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .modal-overlay.open .modal { transform: scale(1) translateY(0); }
+        .modal-header {
+            padding: 18px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .modal-header h2 { margin: 0; font-size: 18px; font-weight: 800; color: var(--text); }
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-3);
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 6px;
+            transition: all 0.15s;
+        }
+        .modal-close:hover { background: var(--surface-2); color: var(--text); }
+        .modal-body { flex: 1; overflow: hidden; display: flex; }
+
+        /* ── Analysis Layout ── */
+        .analysis-sidebar {
+            width: 240px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            background: var(--surface-2);
+            padding: 12px;
+        }
+        .analysis-main {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+        }
+        .metric-btn {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 9px 12px;
+            border-radius: 7px;
+            border: none;
+            background: transparent;
+            color: var(--text-2);
+            font-family: var(--sans);
+            font-size: 12.5px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+            margin-bottom: 2px;
+        }
+        .metric-btn:hover { background: var(--border); color: var(--text); }
+        .metric-btn.active { background: var(--primary-light); color: var(--primary); font-weight: 700; }
+
+        /* ── Toast ── */
+        .toast {
+            position: fixed;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%) translateY(16px);
+            background: #1e293b;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+            z-index: 999;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        /* ── Scrollbar ── */
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        /* ── Section toggle anim ── */
+        .collapsing { overflow: hidden; }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="nav-brand">Amazon <span class="accent">PerfectMile</span></div>
+    <span class="nav-badge">CARAVAN v2</span>
+    <div class="nav-right">
+        <div class="nav-dot"></div>
+        <span>Live · Week 50</span>
+        <span style="color:#475569">DE Network</span>
+    </div>
+</nav>
+
+<!-- TOOLBAR (fixed pill) -->
+<div class="toolbar" id="toolbar">
+    <button class="tb-btn indigo" onclick="openSectionSelector()">📂 Select & Expand</button>
+    <button class="tb-btn cyan"   onclick="openAnalysis()">📊 Deep Dive</button>
+    <button class="tb-btn rose"   onclick="applyBottom5()">🔥 Bottom 5</button>
+    <button class="tb-btn teal"   onclick="applyTop5()">⭐ Top 5</button>
+    <button class="tb-btn amber"  onclick="collapseAll()">⬆ Collapse All</button>
+    <button class="tb-btn slate"  onclick="location.reload()">↻ Reset</button>
+</div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+    <div class="sidebar-section">
+        <div class="sidebar-label">Sections</div>
+        <div class="sidebar-item active" onclick="scrollToSection('sec-pex')">
+            <span class="dot" style="background:#4f46e5"></span> PEx – WBR Metrics
+        </div>
+        <div class="sidebar-item" onclick="scrollToSection('sec-t1')">
+            <span class="dot" style="background:#0891b2"></span> T1 HVE
+        </div>
+        <div class="sidebar-item" onclick="scrollToSection('sec-safety')">
+            <span class="dot" style="background:#e11d48"></span> Safety & Compliance
+        </div>
+        <div class="sidebar-item" onclick="scrollToSection('sec-cost')">
+            <span class="dot" style="background:#d97706"></span> Cost Efficiency
+        </div>
+        <div class="sidebar-item" onclick="scrollToSection('sec-cx')">
+            <span class="dot" style="background:#0d9488"></span> Customer Experience
+        </div>
+        <div class="sidebar-item" onclick="scrollToSection('sec-capacity')">
+            <span class="dot" style="background:#7c3aed"></span> Capacity & Fleet
+        </div>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-label">Quick Actions</div>
+        <div class="sidebar-item" onclick="expandAll()">⊞ Expand All</div>
+        <div class="sidebar-item" onclick="collapseAll()">⊟ Collapse All</div>
+        <div class="sidebar-item" onclick="applyBottom5()">🔥 Highlight Bottom 5</div>
+        <div class="sidebar-item" onclick="applyTop5()">⭐ Highlight Top 5</div>
+        <div class="sidebar-item" onclick="clearHighlights()">✕ Clear Highlights</div>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-label">Week</div>
+        <div style="padding: 0 8px;">
+            <div style="display:flex; gap:4px; flex-direction:column;">
+                <label style="display:flex; align-items:center; gap:6px; font-size:12px; color:var(--text-2); cursor:pointer;">
+                    <input type="radio" name="weekFilter" value="w50" checked> <span>W50 (Current)</span>
+                </label>
+                <label style="display:flex; align-items:center; gap:6px; font-size:12px; color:var(--text-2); cursor:pointer;">
+                    <input type="radio" name="weekFilter" value="w49"> <span>W49</span>
+                </label>
+                <label style="display:flex; align-items:center; gap:6px; font-size:12px; color:var(--text-2); cursor:pointer;">
+                    <input type="radio" name="weekFilter" value="w48"> <span>W48</span>
+                </label>
+            </div>
+        </div>
+    </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div>
+            <h1>Operations Dashboard</h1>
+            <p>Caravan WBR · Real-time performance metrics · DE Network</p>
+        </div>
+    </div>
+
+    <!-- KPI Summary Cards -->
+    <div class="kpi-grid" id="kpiCards"></div>
+
+    <!-- Main Table -->
+    <div class="table-card">
+        <div class="table-toolbar">
+            <div class="table-toolbar-left">
+                <span class="table-title">Metric Hierarchy</span>
+                <span class="table-meta">6 sections · 18 metrics · 12 stations</span>
+            </div>
+            <div style="display:flex; gap:8px;">
+                <button class="expand-all-btn" onclick="expandAll()">⊞ Expand All</button>
+                <button class="collapse-all-btn" onclick="collapseAll()">⊟ Collapse</button>
+            </div>
+        </div>
+        <div style="overflow-x:auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="min-width:280px; text-align:left;">Metric / Station</th>
+                        <th>W48</th>
+                        <th>W49</th>
+                        <th>W50 (Current)</th>
+                        <th>WoW</th>
+                        <th>Goal</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// DATA LAYER
+// ═══════════════════════════════════════════════════════
+const STATIONS = ['DUS4','CGN1','MUC3','BER1','HAM2','FRA1','STR1','LEJ1','NUE1','BRE1','DTM2','HAJ1'];
+
+function rnd(min, max, decimals = 0) {
+    const v = Math.random() * (max - min) + min;
+    return decimals ? parseFloat(v.toFixed(decimals)) : Math.floor(v);
+}
+function pct(min, max) { return rnd(min, max, 1) + '%'; }
+function fmt(n) { return n.toLocaleString(); }
+
+const SECTIONS = [
+    {
+        id: 'sec-pex',
+        label: 'PEx – WBR Metrics',
+        color: '#4f46e5',
+        metrics: [
+            {
+                id: 'all-afn-miss', name: 'All AFN AMZL Miss (bps)', 
+                w48: '124', w49: '98', w50: '110', goal: '50', highBad: true,
+                gen: () => ({ w48: fmt(rnd(0,500)), w49: fmt(rnd(0,500)), w50: fmt(rnd(0,1500)) })
+            },
+            {
+                id: 'late-dispatch', name: 'Late Dispatch DPMO',
+                w48: '450', w49: '320', w50: '410', goal: '300', highBad: true,
+                gen: () => ({ w48: fmt(rnd(0,1000)), w49: fmt(rnd(0,1000)), w50: fmt(rnd(0,2000)) })
+            },
+            {
+                id: 'route-defect', name: 'Route Adherence Defect %',
+                w48: '2.1%', w49: '1.8%', w50: '2.4%', goal: '1.0%', highBad: true,
+                gen: () => ({ w48: pct(0,5), w49: pct(0,5), w50: pct(0,8) })
+            },
+        ]
+    },
+    {
+        id: 'sec-t1',
+        label: 'T1 HVE Metrics',
+        color: '#0891b2',
+        metrics: [
+            {
+                id: 'otd', name: 'On Time Dispatch %',
+                w48: '99.5%', w49: '99.8%', w50: '98.2%', goal: '99.9%', highBad: false,
+                gen: () => ({ w48: pct(97,100), w49: pct(97,100), w50: pct(85,100) })
+            },
+            {
+                id: 'dsr', name: 'Delivery Success Rate',
+                w48: '95.0%', w49: '96.0%', w50: '94.5%', goal: '98.0%', highBad: false,
+                gen: () => ({ w48: pct(90,100), w49: pct(90,100), w50: pct(80,100) })
+            },
+            {
+                id: 'scan-compliance', name: 'Scan Compliance %',
+                w48: '98.1%', w49: '98.7%', w50: '97.9%', goal: '99.5%', highBad: false,
+                gen: () => ({ w48: pct(95,100), w49: pct(95,100), w50: pct(90,100) })
+            },
+        ]
+    },
+    {
+        id: 'sec-safety',
+        label: 'Safety & Compliance',
+        color: '#e11d48',
+        metrics: [
+            {
+                id: 'safety-dpmo', name: 'Safety Incident DPMO',
+                w48: '12', w49: '5', w50: '8', goal: '0', highBad: true,
+                gen: () => ({ w48: fmt(rnd(0,20)), w49: fmt(rnd(0,10)), w50: fmt(rnd(0,50)) })
+            },
+            {
+                id: 'vehicle-defect', name: 'Vehicle Defect Rate %',
+                w48: '3.2%', w49: '2.8%', w50: '3.5%', goal: '2.0%', highBad: true,
+                gen: () => ({ w48: pct(0,8), w49: pct(0,8), w50: pct(0,10) })
+            },
+            {
+                id: 'compliance-score', name: 'Compliance Score',
+                w48: '94.0', w49: '95.5', w50: '93.1', goal: '98.0', highBad: false,
+                gen: () => ({ w48: rnd(88,100,1)+'', w49: rnd(88,100,1)+'', w50: rnd(82,100,1)+'' })
+            },
+        ]
+    },
+    {
+        id: 'sec-cost',
+        label: 'Cost Efficiency',
+        color: '#d97706',
+        metrics: [
+            {
+                id: 'cph', name: 'Cost per Hour (€)',
+                w48: '€28.4', w49: '€27.9', w50: '€29.1', goal: '€26.0', highBad: true,
+                gen: () => ({ w48: '€'+rnd(20,40,1), w49: '€'+rnd(20,40,1), w50: '€'+rnd(20,45,1) })
+            },
+            {
+                id: 'cpp', name: 'Cost per Package (€)',
+                w48: '€2.81', w49: '€2.74', w50: '€2.95', goal: '€2.50', highBad: true,
+                gen: () => ({ w48: '€'+rnd(2,4,2), w49: '€'+rnd(2,4,2), w50: '€'+rnd(2,5,2) })
+            },
+            {
+                id: 'overtime', name: 'Overtime %',
+                w48: '8.5%', w49: '7.2%', w50: '11.3%', goal: '5.0%', highBad: true,
+                gen: () => ({ w48: pct(0,20), w49: pct(0,15), w50: pct(0,25) })
+            },
+            {
+                id: 'fuel-efficiency', name: 'Fuel Efficiency (km/L)',
+                w48: '9.1', w49: '9.3', w50: '8.8', goal: '10.0', highBad: false,
+                gen: () => ({ w48: rnd(7,12,1)+'', w49: rnd(7,12,1)+'', w50: rnd(6,12,1)+'' })
+            },
+        ]
+    },
+    {
+        id: 'sec-cx',
+        label: 'Customer Experience',
+        color: '#0d9488',
+        metrics: [
+            {
+                id: 'csat', name: 'Customer Satisfaction Score',
+                w48: '4.31', w49: '4.38', w50: '4.22', goal: '4.50', highBad: false,
+                gen: () => ({ w48: rnd(3.5,5,2)+'', w49: rnd(3.5,5,2)+'', w50: rnd(3,5,2)+'' })
+            },
+            {
+                id: 'contact-rate', name: 'Customer Contact Rate %',
+                w48: '1.8%', w49: '1.5%', w50: '2.1%', goal: '1.0%', highBad: true,
+                gen: () => ({ w48: pct(0,5), w49: pct(0,4), w50: pct(0,6) })
+            },
+            {
+                id: 'first-attempt', name: 'First Attempt Delivery %',
+                w48: '88.2%', w49: '89.5%', w50: '87.1%', goal: '92.0%', highBad: false,
+                gen: () => ({ w48: pct(80,97), w49: pct(80,97), w50: pct(75,97) })
+            },
+            {
+                id: 'dna', name: 'DNA (Delivery Never Arrived) %',
+                w48: '0.42%', w49: '0.38%', w50: '0.51%', goal: '0.20%', highBad: true,
+                gen: () => ({ w48: pct(0,1), w49: pct(0,0.8), w50: pct(0,1.5) })
+            },
+        ]
+    },
+    {
+        id: 'sec-capacity',
+        label: 'Capacity & Fleet',
+        color: '#7c3aed',
+        metrics: [
+            {
+                id: 'utilization', name: 'Vehicle Utilization %',
+                w48: '82.4%', w49: '84.1%', w50: '79.8%', goal: '88.0%', highBad: false,
+                gen: () => ({ w48: pct(70,95), w49: pct(70,95), w50: pct(65,95) })
+            },
+            {
+                id: 'stop-density', name: 'Stop Density (stops/route)',
+                w48: '42', w49: '44', w50: '40', goal: '50', highBad: false,
+                gen: () => ({ w48: fmt(rnd(30,60)), w49: fmt(rnd(30,60)), w50: fmt(rnd(25,60)) })
+            },
+            {
+                id: 'da-headcount', name: 'DA Headcount Adherence %',
+                w48: '97.2%', w49: '96.8%', w50: '94.5%', goal: '99.0%', highBad: false,
+                gen: () => ({ w48: pct(90,100), w49: pct(90,100), w50: pct(85,100) })
+            },
+        ]
+    }
+];
+
+// ═══════════════════════════════════════════════════════
+// TABLE RENDERING
+// ═══════════════════════════════════════════════════════
+function parseVal(txt) {
+    if (!txt || txt === '-' || txt === 'N/A') return null;
+    return parseFloat(txt.replace(/[€,%]/g, '').replace(/,/g, '').trim()) || null;
+}
+
+function calcWoW(curr, prev) {
+    if (curr == null || prev == null || prev === 0) return { text: '—', cls: 'wow-flat' };
+    const pct = ((curr - prev) / Math.abs(prev)) * 100;
+    const abs = Math.abs(pct).toFixed(1);
+    if (Math.abs(pct) < 0.05) return { text: '—', cls: 'wow-flat' };
+    return pct > 0
+        ? { text: `↑ ${abs}%`, cls: 'wow-up' }
+        : { text: `↓ ${abs}%`, cls: 'wow-down' };
+}
+
+function goalStatus(w50, goal, highBad) {
+    const v = parseVal(w50), g = parseVal(goal);
+    if (v == null || g == null) return '<span class="badge badge-blue">N/A</span>';
+    const ok = highBad ? v <= g : v >= g;
+    const warn = highBad ? v <= g * 1.3 : v >= g * 0.85;
+    if (ok) return '<span class="badge badge-green">✓ On Track</span>';
+    if (warn) return '<span class="badge badge-amber">⚠ At Risk</span>';
+    return '<span class="badge badge-red">✗ Off Track</span>';
+}
+
+function renderTable() {
+    const tbody = document.getElementById('tableBody');
+    let html = '';
+
+    SECTIONS.forEach((section, si) => {
+        // Level-0 section row
+        html += `
+        <tr class="lvl-0" data-level="0" data-section="${section.id}" id="${section.id}">
+            <td>
+                <button class="expand-btn" onclick="toggleSection(this)" data-section="${section.id}">
+                    <span class="chevron">▶</span>
+                </button>
+                <span style="color:${section.color}">${section.label}</span>
+            </td>
+            <td></td><td></td><td></td><td></td><td></td><td></td>
+        </tr>`;
+
+        section.metrics.forEach((metric, mi) => {
+            const w49v = parseVal(metric.w49), w50v = parseVal(metric.w50);
+            const wow = calcWoW(w50v, w49v);
+            const status = goalStatus(metric.w50, metric.goal, metric.highBad);
+
+            // Level-1 metric row
+            html += `
+            <tr class="lvl-1 hidden-row" data-level="1" data-section="${section.id}" data-metric="${mi}">
+                <td>
+                    <button class="expand-btn" onclick="toggleMetric(this, '${section.id}', ${mi})">
+                        <span class="chevron">▶</span>
+                    </button>
+                    ${metric.name}
+                </td>
+                <td class="val">${metric.w48}</td>
+                <td class="val">${metric.w49}</td>
+                <td class="val" style="font-weight:700">${metric.w50}</td>
+                <td class="val ${wow.cls}">${wow.text}</td>
+                <td class="val">${metric.goal}</td>
+                <td>${status}</td>
+            </tr>`;
+
+            // Level-2 station rows
+            STATIONS.forEach((station, sti) => {
+                const d = metric.gen();
+                const w49sv = parseVal(d.w49), w50sv = parseVal(d.w50);
+                const swow = calcWoW(w50sv, w49sv);
+                html += `
+                <tr class="lvl-2 hidden-row" data-level="2" data-section="${section.id}" data-metric="${mi}" data-station="${station}">
+                    <td style="color:var(--text-2);">${station}</td>
+                    <td class="val">${d.w48}</td>
+                    <td class="val">${d.w49}</td>
+                    <td class="val">${d.w50}</td>
+                    <td class="val ${swow.cls}">${swow.text}</td>
+                    <td class="val" style="color:var(--text-3)">—</td>
+                    <td></td>
+                </tr>`;
+            });
+        });
+    });
+
+    tbody.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════
+// EXPAND / COLLAPSE
+// ═══════════════════════════════════════════════════════
+function toggleSection(btn) {
+    const section = btn.dataset.section;
+    const isOpen = btn.classList.contains('open');
+    btn.classList.toggle('open', !isOpen);
+
+    if (isOpen) {
+        // Collapse: hide all children and also collapse any expanded metrics
+        document.querySelectorAll(`tr[data-section="${section}"][data-level="1"]`).forEach(r => {
+            r.classList.add('hidden-row');
+            const mb = r.querySelector('.expand-btn');
+            if (mb) mb.classList.remove('open');
+        });
+        document.querySelectorAll(`tr[data-section="${section}"][data-level="2"]`).forEach(r => {
+            r.classList.add('hidden-row');
+        });
+    } else {
+        // Expand: show level-1 rows only
+        document.querySelectorAll(`tr[data-section="${section}"][data-level="1"]`).forEach(r => {
+            r.classList.remove('hidden-row');
+        });
+    }
+}
+
+function toggleMetric(btn, section, metricIdx) {
+    const isOpen = btn.classList.contains('open');
+    btn.classList.toggle('open', !isOpen);
+
+    document.querySelectorAll(`tr[data-section="${section}"][data-metric="${metricIdx}"][data-level="2"]`).forEach(r => {
+        r.classList.toggle('hidden-row', isOpen);
+    });
+}
+
+function expandAll() {
+    document.querySelectorAll('.expand-btn').forEach(btn => {
+        if (!btn.classList.contains('open')) btn.click();
+    });
+    showToast('All sections expanded', 'success');
+}
+
+function collapseAll() {
+    // collapse in reverse order (metrics first, then sections)
+    document.querySelectorAll(`tr[data-level="2"]`).forEach(r => r.classList.add('hidden-row'));
+    document.querySelectorAll(`tr[data-level="1"]`).forEach(r => r.classList.add('hidden-row'));
+    document.querySelectorAll('.expand-btn.open').forEach(b => b.classList.remove('open'));
+    showToast('All sections collapsed', 'success');
+}
+
+function scrollToSection(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+}
+
+// ═══════════════════════════════════════════════════════
+// HIGHLIGHT – BOTTOM 5 / TOP 5
+// ═══════════════════════════════════════════════════════
+function clearHighlights() {
+    document.querySelectorAll('tr[data-level="2"]').forEach(r => {
+        r.classList.remove('row-bottom', 'row-top');
+    });
+}
+
+function highlightRows(topBad) {
+    clearHighlights();
+    const colIdx = 3; // W50 col (0-indexed from first td)
+
+    SECTIONS.forEach(section => {
+        section.metrics.forEach((metric, mi) => {
+            const rows = Array.from(document.querySelectorAll(
+                `tr[data-section="${section.id}"][data-metric="${mi}"][data-level="2"]`
+            ));
+            if (rows.length === 0) return;
+
+            const sorted = rows.slice().sort((a, b) => {
+                const va = parseVal(a.cells[colIdx].innerText);
+                const vb = parseVal(b.cells[colIdx].innerText);
+                if (va == null) return 1;
+                if (vb == null) return -1;
+                return metric.highBad ? vb - va : va - vb;
+            });
+
+            sorted.slice(0, 5).forEach(r => {
+                r.classList.remove('hidden-row');
+                r.classList.add(topBad ? 'row-bottom' : 'row-top');
+            });
+        });
+    });
+
+    // make sure sections and metrics are visible
+    document.querySelectorAll('.row-bottom, .row-top').forEach(r => {
+        const section = r.dataset.section;
+        const mi = r.dataset.metric;
+        document.querySelectorAll(`tr[data-section="${section}"][data-level="1"][data-metric="${mi}"]`)
+            .forEach(m => {
+                m.classList.remove('hidden-row');
+                const sb = document.querySelector(`tr[data-section="${section}"][data-level="0"] .expand-btn`);
+                if (sb) sb.classList.add('open');
+                const mb = m.querySelector('.expand-btn');
+                if (mb) mb.classList.add('open');
+            });
+        document.querySelectorAll(`tr[data-section="${section}"][data-level="0"]`).forEach(s => {
+            s.querySelector('.expand-btn')?.classList.add('open');
+        });
+    });
+}
+
+function applyBottom5() { highlightRows(true); showToast('Bottom 5 highlighted in red', 'success'); }
+function applyTop5() { highlightRows(false); showToast('Top 5 highlighted in green', 'success'); }
+
+// ═══════════════════════════════════════════════════════
+// SECTION SELECTOR MODAL
+// ═══════════════════════════════════════════════════════
+function openSectionSelector() {
+    const content = `
+        <div style="padding:20px; overflow-y:auto; max-height:60vh;">
+            ${SECTIONS.map((s, i) => `
+                <label style="display:flex; align-items:center; gap:12px; padding:12px; border-radius:8px; cursor:pointer; transition:background 0.1s; margin-bottom:4px;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='none'">
+                    <input type="checkbox" id="sec-cb-${i}" value="${s.id}" style="width:16px; height:16px; accent-color:${s.color}">
+                    <span style="width:10px; height:10px; border-radius:50%; background:${s.color}; flex-shrink:0;"></span>
+                    <span style="font-weight:600; font-size:13px;">${s.label}</span>
+                    <span style="margin-left:auto; color:var(--text-3); font-size:12px;">${s.metrics.length} metrics</span>
+                </label>
+            `).join('')}
+        </div>
+        <div style="padding:16px 20px; background:var(--surface-2); border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; gap:12px;">
+            <button onclick="document.querySelectorAll('[id^=sec-cb-]').forEach(c=>c.checked=true)" style="font-size:12px; color:var(--primary); border:none; background:none; cursor:pointer; font-weight:600;">Select All</button>
+            <div style="display:flex; gap:8px;">
+                <button onclick="closeModal()" style="padding:9px 20px; border-radius:8px; border:1px solid var(--border); background:white; font-weight:600; cursor:pointer; font-family:var(--sans);">Cancel</button>
+                <button onclick="expandSelected()" style="padding:9px 20px; border-radius:8px; border:none; background:var(--primary); color:white; font-weight:600; cursor:pointer; font-family:var(--sans);">Expand Selected</button>
+            </div>
+        </div>
+    `;
+    openModal('📂 Select Sections to Expand', content);
+}
+
+function expandSelected() {
+    const checked = Array.from(document.querySelectorAll('[id^="sec-cb-"]:checked')).map(c => c.value);
+    closeModal();
+    if (!checked.length) { showToast('No sections selected', 'warning'); return; }
+
+    checked.forEach(sectionId => {
+        const secBtn = document.querySelector(`tr[data-section="${sectionId}"][data-level="0"] .expand-btn`);
+        if (secBtn && !secBtn.classList.contains('open')) secBtn.click();
+    });
+    showToast(`Expanded ${checked.length} section(s)`, 'success');
+}
+
+// ═══════════════════════════════════════════════════════
+// DEEP DIVE ANALYSIS MODAL
+// ═══════════════════════════════════════════════════════
+function openAnalysis() {
+    const allMetrics = SECTIONS.flatMap(s => s.metrics.map(m => ({ ...m, sectionLabel: s.label, sectionColor: s.color })));
+
+    const sidebarItems = allMetrics.map((m, i) => `
+        <button class="metric-btn" id="mbtn-${i}" onclick="selectMetric(${i})">${m.name}</button>
+    `).join('');
+
+    const content = `
+        <div class="analysis-sidebar">
+            <div style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-3); margin-bottom:8px; padding:0 4px;">Metrics</div>
+            ${sidebarItems}
+        </div>
+        <div class="analysis-main" id="analysis-content">
+            <div style="text-align:center; color:var(--text-3); margin-top:80px;">
+                <div style="font-size:52px; margin-bottom:12px;">📊</div>
+                <div style="font-weight:600; font-size:15px;">Select a metric to view detailed analysis</div>
+                <div style="font-size:13px; margin-top:6px;">Station-level breakdown, rankings & WoW trends</div>
+            </div>
+        </div>
+    `;
+
+    window._analysisMetrics = allMetrics;
+    openModal('📊 Deep Dive Analysis', content);
+    // Auto-select first
+    setTimeout(() => selectMetric(0), 50);
+}
+
+function selectMetric(idx) {
+    document.querySelectorAll('.metric-btn').forEach(b => b.classList.remove('active'));
+    const btn = document.getElementById(`mbtn-${idx}`);
+    if (btn) btn.classList.add('active');
+
+    const m = window._analysisMetrics[idx];
+    if (!m) return;
+
+    // Generate fresh station data for this analysis
+    const stationData = STATIONS.map(s => {
+        const d = m.gen();
+        return {
+            name: s,
+            w48: parseVal(d.w48),
+            w49: parseVal(d.w49),
+            w50: parseVal(d.w50),
+            w48raw: d.w48, w49raw: d.w49, w50raw: d.w50
+        };
+    }).sort((a, b) => m.highBad ? b.w50 - a.w50 : a.w50 - b.w50);
+
+    const max50 = Math.max(...stationData.map(d => d.w50));
+
+    const rows = stationData.map((d, i) => {
+        const wow = calcWoW(d.w50, d.w49);
+        const isWorst = i < 3;
+        const isBest = i >= stationData.length - 3;
+        const barPct = max50 > 0 ? (d.w50 / max50 * 100).toFixed(1) : 0;
+        const barColor = isWorst ? '#dc2626' : (isBest ? '#0d9488' : '#3b82f6');
+
+        // Mini sparkline SVG (3-point: w48, w49, w50)
+        const vals = [d.w48, d.w49, d.w50].filter(v => v != null);
+        const sparky = vals.length === 3 ? miniSparkline(vals) : '';
+
+        return `
+            <tr style="${isWorst ? 'background:#fef2f2' : (isBest ? 'background:#f0fdf9' : '')}">
+                <td style="padding:10px 14px; color:var(--text-3); font-weight:600; font-size:13px;">#${i+1}</td>
+                <td style="padding:10px 14px; font-weight:600; font-size:13px;">
+                    ${d.name}
+                    ${isWorst ? '<span class="badge badge-red" style="margin-left:6px">Bottom</span>' : ''}
+                    ${isBest ? '<span class="badge badge-green" style="margin-left:6px">Top</span>' : ''}
+                </td>
+                <td style="padding:10px 14px; text-align:right; font-family:var(--mono); font-size:12px;">${d.w48raw}</td>
+                <td style="padding:10px 14px; text-align:right; font-family:var(--mono); font-size:12px;">${d.w49raw}</td>
+                <td style="padding:10px 14px; text-align:right; font-family:var(--mono); font-size:13px; font-weight:700;">${d.w50raw}</td>
+                <td style="padding:10px 14px; text-align:right; font-family:var(--mono); font-size:12px;" class="${wow.cls}">${wow.text}</td>
+                <td style="padding:10px 20px;">
+                    <div style="display:flex; align-items:center; gap:6px;">
+                        <div style="flex:1; height:6px; background:#f1f5f9; border-radius:3px; min-width:60px;">
+                            <div style="width:${barPct}%; height:100%; background:${barColor}; border-radius:3px;"></div>
+                        </div>
+                        ${sparky}
+                    </div>
+                </td>
+            </tr>`;
+    }).join('');
+
+    // Summary stats
+    const vals = stationData.map(d => d.w50).filter(v => v != null);
+    const avg = vals.length ? (vals.reduce((a,b) => a+b, 0) / vals.length).toFixed(1) : '—';
+    const mn = vals.length ? Math.min(...vals).toFixed(1) : '—';
+    const mx = vals.length ? Math.max(...vals).toFixed(1) : '—';
+
+    document.getElementById('analysis-content').innerHTML = `
+        <div style="margin-bottom:20px;">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+                <span style="font-size:11px; padding:3px 10px; background:var(--surface-2); border-radius:20px; color:var(--text-2);">${m.sectionLabel}</span>
+                <span style="font-size:11px; padding:3px 10px; background:var(--surface-2); border-radius:20px; color:var(--text-2);">${m.highBad ? '🔴 High = Bad' : '🟢 High = Good'}</span>
+            </div>
+            <h3 style="margin:0 0 4px; font-size:20px; font-weight:800;">${m.name}</h3>
+            <div style="display:flex; gap:16px; margin-top:12px;">
+                <div style="background:var(--surface-2); padding:10px 16px; border-radius:8px; border:1px solid var(--border);">
+                    <div style="font-size:10px; color:var(--text-3); font-weight:700; text-transform:uppercase; margin-bottom:2px;">Network W50</div>
+                    <div style="font-size:20px; font-weight:800; font-family:var(--mono);">${m.w50}</div>
+                </div>
+                <div style="background:var(--surface-2); padding:10px 16px; border-radius:8px; border:1px solid var(--border);">
+                    <div style="font-size:10px; color:var(--text-3); font-weight:700; text-transform:uppercase; margin-bottom:2px;">Goal</div>
+                    <div style="font-size:20px; font-weight:800; font-family:var(--mono);">${m.goal}</div>
+                </div>
+                <div style="background:var(--surface-2); padding:10px 16px; border-radius:8px; border:1px solid var(--border);">
+                    <div style="font-size:10px; color:var(--text-3); font-weight:700; text-transform:uppercase; margin-bottom:2px;">Station Avg</div>
+                    <div style="font-size:20px; font-weight:800; font-family:var(--mono);">${avg}</div>
+                </div>
+                <div style="background:var(--surface-2); padding:10px 16px; border-radius:8px; border:1px solid var(--border);">
+                    <div style="font-size:10px; color:var(--text-3); font-weight:700; text-transform:uppercase; margin-bottom:2px;">Best</div>
+                    <div style="font-size:20px; font-weight:800; font-family:var(--mono); color:var(--success);">${mn}</div>
+                </div>
+                <div style="background:var(--surface-2); padding:10px 16px; border-radius:8px; border:1px solid var(--border);">
+                    <div style="font-size:10px; color:var(--text-3); font-weight:700; text-transform:uppercase; margin-bottom:2px;">Worst</div>
+                    <div style="font-size:20px; font-weight:800; font-family:var(--mono); color:var(--danger);">${mx}</div>
+                </div>
+            </div>
+        </div>
+        <div style="background:white; border:1px solid var(--border); border-radius:10px; overflow:hidden; box-shadow:var(--shadow);">
+            <table style="width:100%; border-collapse:collapse; font-size:13px; font-family:var(--sans);">
+                <thead>
+                    <tr style="background:#f8fafc;">
+                        <th style="padding:10px 14px; text-align:left; font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-3);">Rank</th>
+                        <th style="padding:10px 14px; text-align:left; font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-3);">Station</th>
+                        <th style="padding:10px 14px; text-align:right; font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-3);">W48</th>
+                        <th style="padding:10px 14px; text-align:right; font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-3);">W49</th>
+                        <th style="padding:10px 14px; text-align:right; font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-3);">W50</th>
+                        <th style="padding:10px 14px; text-align:right; font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-3);">WoW</th>
+                        <th style="padding:10px 14px; font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-3);">Trend</th>
+                    </tr>
+                </thead>
+                <tbody style="font-family:var(--sans);">${rows}</tbody>
+            </table>
+        </div>
+    `;
+}
+
+function miniSparkline(vals) {
+    const w = 48, h = 20, pad = 2;
+    const mn = Math.min(...vals), mx = Math.max(...vals);
+    const range = mx - mn || 1;
+    const pts = vals.map((v, i) => {
+        const x = pad + (i / (vals.length - 1)) * (w - pad * 2);
+        const y = h - pad - ((v - mn) / range) * (h - pad * 2);
+        return `${x},${y}`;
+    }).join(' ');
+    const trend = vals[vals.length-1] > vals[0];
+    const color = trend ? '#0d9488' : '#dc2626';
+    return `<svg width="${w}" height="${h}" style="flex-shrink:0;">
+        <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        ${vals.map((v, i) => {
+            const x = pad + (i / (vals.length - 1)) * (w - pad * 2);
+            const y = h - pad - ((v - mn) / range) * (h - pad * 2);
+            return `<circle cx="${x}" cy="${y}" r="2" fill="${color}"/>`;
+        }).join('')}
+    </svg>`;
+}
+
+// ═══════════════════════════════════════════════════════
+// KPI SUMMARY CARDS
+// ═══════════════════════════════════════════════════════
+function renderKPICards() {
+    const cards = [
+        { label: 'Network Miss Rate', value: '110 bps', delta: '+12 bps WoW', dir: 'up', color: 'red' },
+        { label: 'On Time Dispatch', value: '98.2%', delta: '-1.6% WoW', dir: 'down', color: 'orange' },
+        { label: 'CSAT Score', value: '4.22', delta: '-0.16 WoW', dir: 'down', color: 'purple' },
+        { label: 'Cost per Package', value: '€2.95', delta: '+7.7% WoW', dir: 'up', color: 'red' },
+        { label: 'Safety DPMO', value: '8', delta: '+60% WoW', dir: 'up', color: 'green' },
+    ];
+
+    document.getElementById('kpiCards').innerHTML = cards.map(c => `
+        <div class="kpi-card ${c.color}">
+            <div class="kpi-label">${c.label}</div>
+            <div class="kpi-value">${c.value}</div>
+            <div class="kpi-delta ${c.dir === 'up' ? 'up' : 'down'}">
+                ${c.dir === 'up' ? '↑' : '↓'} ${c.delta}
+            </div>
+        </div>
+    `).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+// MODAL UTILS
+// ═══════════════════════════════════════════════════════
+let _modal = null;
+
+function openModal(title, contentHTML) {
+    closeModal();
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.innerHTML = `
+        <div class="modal">
+            <div class="modal-header">
+                <h2>${title}</h2>
+                <button class="modal-close" onclick="closeModal()">
+                    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">${contentHTML}</div>
+        </div>
+    `;
+    overlay.onclick = e => { if (e.target === overlay) closeModal(); };
+    document.body.appendChild(overlay);
+    requestAnimationFrame(() => overlay.classList.add('open'));
+    _modal = overlay;
+}
+
+function closeModal() {
+    if (!_modal) return;
+    _modal.classList.remove('open');
+    setTimeout(() => { _modal?.remove(); _modal = null; }, 250);
+}
+
+// ═══════════════════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════════════════
+const TOAST_ICONS = { success: '✓', warning: '⚠', info: 'ℹ', loading: '⏳' };
+const TOAST_COLORS = { success: '#0d9488', warning: '#d97706', info: '#3b82f6', loading: '#7c3aed' };
+let _toastTimer;
+
+function showToast(msg, type = 'info') {
+    const el = document.getElementById('toast');
+    clearTimeout(_toastTimer);
+    el.innerHTML = `<span style="color:${TOAST_COLORS[type]}">${TOAST_ICONS[type]}</span> ${msg}`;
+    el.classList.add('show');
+    _toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
+}
+
+// ═══════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+    renderKPICards();
+    renderTable();
+});
+</script>
+</body>
+</html>
